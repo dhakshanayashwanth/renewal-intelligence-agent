@@ -1355,8 +1355,24 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
           <div style={{ flex: 1, overflowY: "auto", padding: 12, display: "flex", flexDirection: "column", gap: 8, minHeight: 200, maxHeight: 360 }}>
             {chatMsgs.length === 0 && (
               <div style={{ padding: 16, textAlign: "center" }}>
-                <div style={{ fontSize: 12, color: sf.textMuted, marginBottom: 12 }}>Ask questions about {c.name}'s renewal risk. For example:</div>
-                {["What's the best way to re-engage their team?", "How does this compare to typical churn patterns?", "What should I say in the executive outreach?"].map((q, i) => (
+                <div style={{ fontSize: 12, color: sf.textMuted, marginBottom: 12 }}>Ask questions about {c.name}'s {selectedQ === "expansion" ? "expansion potential" : selectedQ === "seats" ? "seat utilization" : selectedQ === "features" ? "feature adoption" : "renewal risk"}. For example:</div>
+                {(selectedQ === "expansion" ? [
+                  "What departments are most likely to expand?",
+                  "What's the best timing for an expansion conversation?",
+                  "How does their growth compare to similar accounts?"
+                ] : selectedQ === "seats" ? [
+                  "Which users are at highest risk of being cut?",
+                  "How can we demonstrate value-per-seat to the VP?",
+                  "What's the best proactive seat optimization strategy?"
+                ] : selectedQ === "features" ? [
+                  "Which features should we prioritize for enablement?",
+                  "What's blocking adoption of advanced features?",
+                  "How can we increase feature discovery for this team?"
+                ] : [
+                  "What's the best way to re-engage their team?",
+                  "How does this compare to typical churn patterns?",
+                  "What should I say in the executive outreach?"
+                ]).map((q, i) => (
                   <button key={i} onClick={() => setChatInput(q)} style={{
                     display: "block", width: "100%", padding: "8px 12px", marginBottom: 6,
                     background: sf.bgCard, border: `1px solid ${sf.border}`, borderRadius: 6,
@@ -1387,7 +1403,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
           <div style={{ padding: "10px 12px", borderTop: `1px solid ${sf.border}`, display: "flex", gap: 8 }}>
             <input value={chatInput} onChange={e => setChatInput(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") sendChat(); }}
-              placeholder="Ask the Renewal Agent..."
+              placeholder={selectedQ === "expansion" ? "Ask about expansion opportunities..." : selectedQ === "seats" ? "Ask about seat utilization..." : selectedQ === "features" ? "Ask about feature adoption..." : "Ask about renewal risk..."}
               autoFocus
               style={{ flex: 1, padding: "8px 12px", background: "rgba(255,255,255,0.05)", border: `1px solid ${sf.border}`, borderRadius: 6, color: sf.white, fontFamily: "inherit", fontSize: 12, outline: "none" }}
             />
