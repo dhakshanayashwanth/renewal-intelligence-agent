@@ -10,16 +10,19 @@ const sf = {
 };
 
 /* ─── Tooltip ─── */
-function Tip({ label, children, color, wide }) {
+function Tip({ label, children, color, wide, below, alignLeft }) {
   const [show, setShow] = useState(false);
+  const posStyle = alignLeft
+    ? { left: 0 }
+    : { left: "50%", transform: "translateX(-50%)" };
   return (
     <span style={{ position: "relative", display: "inline-flex", alignItems: "center" }}
       onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
-      <span style={{ cursor: "help", borderBottom: `1px dashed ${color || sf.textMuted}` }}>{label}</span>
+      <span style={{ cursor: "help" }}>{label}</span>
       {show && (
-        <div style={{ position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)", padding: "10px 14px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: 8, fontSize: 11, color: sf.textLight, lineHeight: 1.5, minWidth: 240, zIndex: 999, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", ...(below ? { top: "calc(100% + 8px)" } : { bottom: "calc(100% + 8px)" }), ...posStyle, padding: "10px 14px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: 8, fontSize: 11, color: sf.textLight, lineHeight: 1.5, minWidth: 240, zIndex: 999, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", pointerEvents: "none" }}>
           {children}
-          <div style={{ position: "absolute", bottom: -5, left: "50%", transform: "translateX(-50%) rotate(45deg)", width: 10, height: 10, background: sf.darkBlue, borderRight: `1px solid ${sf.border}`, borderBottom: `1px solid ${sf.border}` }} />
+          {!alignLeft && <div style={{ position: "absolute", ...(below ? { top: -5, borderLeft: `1px solid ${sf.border}`, borderTop: `1px solid ${sf.border}` } : { bottom: -5, borderRight: `1px solid ${sf.border}`, borderBottom: `1px solid ${sf.border}` }), left: "50%", transform: "translateX(-50%) rotate(45deg)", width: 10, height: 10, background: sf.darkBlue }} />}
         </div>
       )}
     </span>
@@ -825,7 +828,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                       <div key={di} style={{ display: "flex", alignItems: "center", padding: "7px 20px", borderBottom: `1px solid rgba(1,118,211,0.05)`, opacity: gi < visibleRows ? 1 : 0, transition: "all 0.25s ease" }}>
                         <span style={{ width: 200, fontSize: 12, color: sf.textMuted, display: "flex", alignItems: "center", gap: 5 }}>
                           {d.metric}
-                          <Tip label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
+                          <Tip below alignLeft label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
                             <div style={{ width: 220 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
                           </Tip>
                         </span>
@@ -926,7 +929,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                       }}>
                         <span style={{ width: 200, fontSize: 12, color: sf.textMuted, display: "flex", alignItems: "center", gap: 5 }}>
                           {d.metric}
-                          <Tip label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
+                          <Tip below alignLeft label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
                             <div style={{ width: 220 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
                           </Tip>
                         </span>
