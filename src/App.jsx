@@ -1331,7 +1331,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
         {/* Footer */}
         <div style={{ marginTop: 40, paddingTop: 20, borderTop: `1px solid ${sf.border}`, textAlign: "center" }}>
           <div style={{ fontSize: 11, color: sf.textMuted, marginBottom: 4 }}>Data Cloud → Intelligence Layer → Human Validation → Einstein Trust Layer → Agent → Brief → Feedback → Action</div>
-          <div style={{ fontSize: 10, color: sf.textDim }}>Built by Yashwanth Dhakshana · Renewals Team</div>
+          <div style={{ fontSize: 10, color: sf.textDim }}>Built by Yashwanth Dhakshana · Renewals Team · <a href="https://github.com/dhakshanayashwanth/renewal-intelligence-agent/tree/main" target="_blank" rel="noopener noreferrer" style={{ color: sf.lightBlue, textDecoration: "none" }}>GitHub Repo</a></div>
         </div>
       </div>
 
