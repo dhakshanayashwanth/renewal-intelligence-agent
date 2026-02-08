@@ -838,26 +838,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                 ))}
               </div>
 
-              <div style={{ padding: "16px 20px", background: "rgba(1,118,211,0.04)", border: `1px solid ${sf.border}`, borderRadius: 10 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: sf.lightBlue, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>Or ask a custom question</div>
-                <div style={{ display: "flex", gap: 10 }}>
-                  <input
-                    value={customQ}
-                    onChange={e => setCustomQ(e.target.value)}
-                    onKeyDown={e => { if (e.key === "Enter") runCustomQuestion(); }}
-                    placeholder="e.g., Will this customer consolidate to a competitor within 6 months?"
-                    style={{ flex: 1, padding: "10px 14px", background: "rgba(255,255,255,0.05)", border: `1px solid ${sf.border}`, borderRadius: 6, color: sf.white, fontFamily: "inherit", fontSize: 12, outline: "none" }}
-                  />
-                  <button onClick={runCustomQuestion} disabled={!customQ.trim() || customLoading} style={{
-                    padding: "10px 20px", background: customQ.trim() ? `linear-gradient(135deg, ${sf.cloudBlue}, ${sf.lightBlue})` : "rgba(255,255,255,0.05)",
-                    border: "none", borderRadius: 6, color: sf.white, cursor: customQ.trim() ? "pointer" : "default",
-                    fontFamily: "inherit", fontSize: 12, fontWeight: 600, opacity: customQ.trim() ? 1 : 0.5
-                  }}>
-                    {customLoading ? "Analyzing..." : "🧠 Run Analysis →"}
-                  </button>
-                </div>
-                <div style={{ fontSize: 10, color: sf.textDim, marginTop: 8 }}>The AI agent will analyze all 20 data points against your specific question and produce a custom intelligence brief.</div>
-              </div>
+
             </div>
           </div>
         )}
