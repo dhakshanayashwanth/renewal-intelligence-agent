@@ -1382,7 +1382,9 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                 ))}
               </div>
             )}
-            {chatMsgs.map((m, i) => (
+            {chatMsgs.map((m, i) => {
+              const rendered = m.role === "assistant" ? m.text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/^- /gm, '• ') : m.text;
+              return (
               <div key={i} style={{
                 alignSelf: m.role === "user" ? "flex-end" : "flex-start",
                 maxWidth: "85%", padding: "10px 14px", borderRadius: 10,
@@ -1390,8 +1392,9 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                 border: m.role === "user" ? "none" : `1px solid ${sf.border}`,
                 color: sf.white, fontSize: 12, lineHeight: 1.6,
                 whiteSpace: "pre-wrap"
-              }}>{m.text}</div>
-            ))}
+              }} {...(m.role === "assistant" ? { dangerouslySetInnerHTML: { __html: rendered } } : { children: m.text })} />
+              );
+            })}
             {chatLoading && (
               <div style={{ alignSelf: "flex-start", padding: "10px 14px", borderRadius: 10, background: sf.bgCard, border: `1px solid ${sf.border}`, color: sf.textMuted, fontSize: 12 }}>
                 Thinking...
