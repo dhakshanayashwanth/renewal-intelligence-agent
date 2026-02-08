@@ -443,6 +443,28 @@ const makeCustomers = () => [
 ];
 
 const catIcons = { Usage: "📊", Support: "🎧", Stakeholder: "👤", Financial: "💰", Sentiment: "💬" };
+const metricDefs = {
+  "Platform logins (30d)": "Number of unique user logins to the platform over the last 30 days, compared to the previous period.",
+  "API call volume (30d)": "Total API requests made by this customer's integrations in the last 30 days. Indicates how deeply embedded the platform is in their workflows.",
+  "Feature adoption rate": "Percentage of available platform features actively used by this customer. Higher adoption = more value realized = lower churn risk.",
+  "Report generation (30d)": "Number of reports, dashboards, or exports generated in the last 30 days. Measures active analytical use of the platform.",
+  "Open critical tickets": "Number of unresolved support tickets marked as critical/P1 severity. These directly impact customer trust and satisfaction.",
+  "Avg resolution time": "Average number of days to resolve support tickets for this customer. Industry benchmark is 3-5 days.",
+  "Total tickets (90d)": "Total support tickets submitted over the last 90 days. High volume may indicate product issues or heavy usage.",
+  "CSAT on last 5 tickets": "Customer Satisfaction score averaged across the 5 most recent resolved tickets. Scale: 1 (very dissatisfied) to 5 (very satisfied).",
+  "Executive sponsor": "The senior leader at the customer organization who champions the platform internally. Loss of sponsor is a top churn predictor.",
+  "Primary contact": "The day-to-day contact person managing the platform relationship. Their engagement level signals account health.",
+  "Team size on platform": "Number of licensed users actively on the platform. Growth signals expansion; decline signals potential seat reduction.",
+  "Last executive meeting": "Time since the last strategic meeting between our leadership and the customer's executives. Regular touchpoints reduce churn risk.",
+  "Payment history": "Track record of on-time contract payments. Late payments can signal budget pressure or deprioritization.",
+  "Contract value trend": "Year-over-year change in the customer's contract value. Flat or declining trends suggest stagnation.",
+  "Last renewal discount": "Discount percentage applied at the most recent renewal. High discounts may indicate price sensitivity or low perceived value.",
+  "NPS score": "Net Promoter Score (0-10). 9-10 = Promoter, 7-8 = Passive, 0-6 = Detractor. Measures likelihood to recommend the platform.",
+  "Last NPS comment": "Most recent verbatim feedback from the customer's NPS survey. Direct voice-of-customer signal.",
+  "Community activity": "Customer's participation in the platform's user community — forum posts, event attendance, knowledge sharing.",
+  "Training attendance": "Participation in platform training sessions, webinars, and enablement programs. Correlates with feature adoption.",
+  "Email open rate": "Percentage of platform emails (product updates, tips, announcements) opened by the customer's team.",
+};
 const signalLevels = ["high", "medium", "low", "noise"];
 const signalStyle = {
   high: { bg: "rgba(234,0,30,0.1)", border: "rgba(234,0,30,0.3)", text: sf.errorLight, label: "HIGH" },
@@ -486,6 +508,8 @@ export default function App() {
   const [customQ, setCustomQ] = useState("");
   const [customBrief, setCustomBrief] = useState(null);
   const [customLoading, setCustomLoading] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [feedbackSent, setFeedbackSent] = useState(false);
   const chatEndRef = useRef(null);
   const ivRef = useRef(null);
 
@@ -600,7 +624,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
   const goToContext = () => setStep(5);
   const goToBrief = () => { setStep(6); setTimeout(() => setBriefVisible(true), 100); };
   const goToAction = () => setStep(7);
-  const resetDemo = () => { setStep(1); setSelIdx(null); setFilterProg(0); setVisibleRows(0); setBriefVisible(false); setCustomers(makeCustomers()); setChatOpen(false); setChatMsgs([]); setAutonomyMode(false); setSelectedQ(null); setCustomQ(""); setCustomBrief(null); };
+  const resetDemo = () => { setStep(1); setSelIdx(null); setFilterProg(0); setVisibleRows(0); setBriefVisible(false); setCustomers(makeCustomers()); setChatOpen(false); setChatMsgs([]); setAutonomyMode(false); setSelectedQ(null); setCustomQ(""); setCustomBrief(null); setFeedbackText(""); setFeedbackSent(false); };
 
   const highSigs = c ? c.data.filter(d => getSignal(d) === "high") : [];
   const medSigs = c ? c.data.filter(d => getSignal(d) === "medium") : [];
@@ -799,7 +823,9 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                     const gi = c.data.indexOf(d);
                     return (
                       <div key={di} style={{ display: "flex", alignItems: "center", padding: "7px 20px", borderBottom: `1px solid rgba(1,118,211,0.05)`, opacity: gi < visibleRows ? 1 : 0, transition: "all 0.25s ease" }}>
-                        <span style={{ width: 200, fontSize: 12, color: sf.textMuted }}>{d.metric}</span>
+                        <Tip label={<span style={{ width: 200, fontSize: 12, color: sf.textMuted, cursor: "help", borderBottom: `1px dashed rgba(107,138,181,0.3)`, display: "inline-block" }}>{d.metric}</span>} color={sf.textMuted}>
+                          <div style={{ width: 240 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
+                        </Tip>
                         <span style={{ fontSize: 12, color: sf.white, fontWeight: 500 }}>{d.value}</span>
                       </div>
                     );
@@ -895,7 +921,9 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                         background: show && sig === "high" ? sc.bg : d.overridden ? "rgba(1,118,211,0.06)" : "transparent",
                         transition: "all 0.4s ease", gap: 8, position: "relative"
                       }}>
-                        <span style={{ width: 200, fontSize: 12, color: sf.textMuted }}>{d.metric}</span>
+                        <Tip label={<span style={{ width: 200, fontSize: 12, color: sf.textMuted, cursor: "help", borderBottom: `1px dashed rgba(107,138,181,0.3)`, display: "inline-block" }}>{d.metric}</span>} color={sf.textMuted}>
+                          <div style={{ width: 240 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
+                        </Tip>
                         <span style={{ width: 140, fontSize: 12, color: sf.white, fontWeight: 500 }}>{d.value}</span>
                         {show && (
                           <>
@@ -1241,6 +1269,41 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* User Feedback */}
+              <div style={{ marginTop: 20, padding: "16px 18px", background: sf.bgCard, border: `1px solid ${sf.border}`, borderRadius: 8 }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.textMuted, marginBottom: 10, fontWeight: 700 }}>💬 Share Feedback or Comments</div>
+                {feedbackSent ? (
+                  <div style={{ padding: "14px 18px", background: "rgba(46,132,74,0.08)", border: `1px solid rgba(46,132,74,0.2)`, borderRadius: 8, display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 18 }}>✅</span>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: sf.successLight }}>Thank you for your feedback.</div>
+                      <div style={{ fontSize: 11, color: sf.textMuted, marginTop: 2 }}>Your input helps improve the Intelligence Layer's recommendations. The Renewals team will review your feedback.</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <textarea
+                      value={feedbackText}
+                      onChange={e => setFeedbackText(e.target.value)}
+                      placeholder="Share feedback on the recommendations, suggest improvements, flag data issues, or leave comments for the team..."
+                      style={{
+                        width: "100%", minHeight: 80, padding: "10px 14px", background: "rgba(255,255,255,0.03)",
+                        border: `1px solid ${sf.border}`, borderRadius: 6, color: sf.white, fontFamily: "inherit",
+                        fontSize: 12, lineHeight: 1.5, outline: "none", resize: "vertical", boxSizing: "border-box"
+                      }}
+                    />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
+                      <span style={{ fontSize: 10, color: sf.textDim }}>Feedback is logged and used to improve model accuracy over time.</span>
+                      <button onClick={() => { if (feedbackText.trim()) setFeedbackSent(true); }} disabled={!feedbackText.trim()} style={{
+                        padding: "6px 16px", background: feedbackText.trim() ? `linear-gradient(135deg, ${sf.cloudBlue}, ${sf.lightBlue})` : "rgba(255,255,255,0.05)",
+                        border: "none", borderRadius: 5, color: sf.white, cursor: feedbackText.trim() ? "pointer" : "default",
+                        fontFamily: "inherit", fontSize: 11, fontWeight: 600, opacity: feedbackText.trim() ? 1 : 0.5
+                      }}>Submit Feedback</button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div style={{ marginTop: 20, padding: "14px 18px", background: "rgba(1,118,211,0.06)", border: `1px solid ${sf.border}`, borderRadius: 8, display: "flex", alignItems: "center", gap: 12 }}>
