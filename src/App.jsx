@@ -72,39 +72,124 @@ const makeCustomers = () => [
     renewalIn: "4 months", renewalDate: "Jun 15, 2025", riskLevel: "HIGH", riskScore: 82,
     color: sf.error, csm: "Sarah Chen", contacts: 34, lastActivity: "3 weeks ago",
     data: [
-      { cat: "Usage", metric: "Platform logins (30d)", value: "Down 47%", signal: "high", insight: "Steep disengagement — losing daily active users fast" },
-      { cat: "Usage", metric: "API call volume (30d)", value: "Down 38%", signal: "high", insight: "Integration usage declining — may be evaluating alternatives" },
-      { cat: "Usage", metric: "Feature adoption rate", value: "12%", signal: "medium", insight: "Low adoption suggests poor onboarding or product mismatch" },
-      { cat: "Usage", metric: "Report generation (30d)", value: "Down 22%", signal: "low", insight: "Moderate decline, follows login trend" },
-      { cat: "Support", metric: "Open critical tickets", value: "5 unresolved", signal: "high", insight: "5 critical tickets open — trust actively eroding" },
-      { cat: "Support", metric: "Avg resolution time", value: "14 days", signal: "medium", insight: "Slow resolution compounding frustration" },
-      { cat: "Support", metric: "Total tickets (90d)", value: "23 tickets", signal: "low", insight: "Volume is moderate, severity is the issue" },
-      { cat: "Support", metric: "CSAT on last 5 tickets", value: "2.1 / 5", signal: "high", insight: "Direct dissatisfaction with support quality" },
-      { cat: "Stakeholder", metric: "Executive sponsor", value: "Left 6 weeks ago", signal: "high", insight: "No internal champion — critical risk factor" },
-      { cat: "Stakeholder", metric: "Primary contact", value: "Dark for 3 weeks", signal: "high", insight: "Going dark — likely evaluating alternatives" },
-      { cat: "Stakeholder", metric: "Team size on platform", value: "Stable at 34", signal: "noise", insight: "No change — not meaningful right now" },
-      { cat: "Stakeholder", metric: "Last executive meeting", value: "4 months ago", signal: "medium", insight: "Too long without executive touchpoint" },
-      { cat: "Financial", metric: "Payment history", value: "2 late payments", signal: "medium", insight: "Budget pressure or deprioritization" },
-      { cat: "Financial", metric: "Contract value trend", value: "Flat 2 years", signal: "low", insight: "No expansion — stagnant relationship" },
-      { cat: "Financial", metric: "Last renewal discount", value: "15%", signal: "noise", insight: "Historical context, not a current driver" },
-      { cat: "Sentiment", metric: "NPS score", value: "Dropped 8 → 3", signal: "high", insight: "Massive sentiment shift — something broke" },
-      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Considering options\"", signal: "high", insight: "Explicit competitive evaluation signal" },
-      { cat: "Sentiment", metric: "Community activity", value: "None in 60 days", signal: "low", insight: "Disengaged, consistent with pattern" },
-      { cat: "Sentiment", metric: "Training attendance", value: "Skipped 2 sessions", signal: "noise", insight: "Correlated but not independently predictive" },
-      { cat: "Sentiment", metric: "Email open rate", value: "8%", signal: "noise", insight: "Low but common across accounts" },
+      { cat: "Usage", metric: "Platform logins (30d)", value: "Down 47%",
+        signals: { churn: "high", expansion: "noise", seats: "medium", features: "high" },
+        insights: { churn: "Steep disengagement — losing daily active users fast", expansion: "Not relevant to expansion assessment", seats: "Reduced logins correlate with seat consolidation", features: "Users not logging in = features not being adopted" } },
+      { cat: "Usage", metric: "API call volume (30d)", value: "Down 38%",
+        signals: { churn: "high", expansion: "noise", seats: "low", features: "high" },
+        insights: { churn: "Integration usage declining — may be evaluating alternatives", expansion: "No growth signals in API usage", seats: "API decline is team-wide, not per-seat", features: "Integration features being abandoned" } },
+      { cat: "Usage", metric: "Feature adoption rate", value: "12%",
+        signals: { churn: "medium", expansion: "noise", seats: "low", features: "high" },
+        insights: { churn: "Low adoption suggests poor onboarding or product mismatch", expansion: "No expansion with 12% adoption", seats: "Low adoption may push consolidation", features: "Only 12% of available features used — massive gap" } },
+      { cat: "Usage", metric: "Report generation (30d)", value: "Down 22%",
+        signals: { churn: "low", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Moderate decline, follows login trend", expansion: "Not a growth signal", seats: "Not seat-specific", features: "Reporting feature usage declining" } },
+      { cat: "Support", metric: "Open critical tickets", value: "5 unresolved",
+        signals: { churn: "high", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "5 critical tickets open — trust actively eroding", expansion: "Support issues block expansion", seats: "Not directly seat-related", features: "Unresolved bugs block feature adoption" } },
+      { cat: "Support", metric: "Avg resolution time", value: "14 days",
+        signals: { churn: "medium", expansion: "noise", seats: "noise", features: "low" },
+        insights: { churn: "Slow resolution compounding frustration", expansion: "Not relevant", seats: "Not seat-related", features: "Slow fixes delay feature rollout" } },
+      { cat: "Support", metric: "Total tickets (90d)", value: "23 tickets",
+        signals: { churn: "low", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Volume is moderate, severity is the issue", expansion: "Not relevant", seats: "Not relevant", features: "Volume not informative" } },
+      { cat: "Support", metric: "CSAT on last 5 tickets", value: "2.1 / 5",
+        signals: { churn: "high", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Direct dissatisfaction with support quality", expansion: "Not relevant at this CSAT", seats: "Not seat-specific", features: "Low satisfaction reduces willingness to try new features" } },
+      { cat: "Stakeholder", metric: "Executive sponsor", value: "Left 6 weeks ago",
+        signals: { churn: "high", expansion: "high", seats: "medium", features: "low" },
+        insights: { churn: "No internal champion — critical risk factor", expansion: "No sponsor to champion expansion", seats: "New leadership may consolidate", features: "Feature roadmap loses internal advocacy" } },
+      { cat: "Stakeholder", metric: "Primary contact", value: "Dark for 3 weeks",
+        signals: { churn: "high", expansion: "noise", seats: "low", features: "noise" },
+        insights: { churn: "Going dark — likely evaluating alternatives", expansion: "Not relevant", seats: "Silence may precede reduction", features: "Not feature-specific" } },
+      { cat: "Stakeholder", metric: "Team size on platform", value: "Stable at 34",
+        signals: { churn: "noise", expansion: "noise", seats: "medium", features: "noise" },
+        insights: { churn: "No change — not meaningful right now", expansion: "No growth", seats: "Stable but watch for decline signals", features: "Not feature-related" } },
+      { cat: "Stakeholder", metric: "Last executive meeting", value: "4 months ago",
+        signals: { churn: "medium", expansion: "medium", seats: "noise", features: "noise" },
+        insights: { churn: "Too long without executive touchpoint", expansion: "No recent strategic conversations", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Financial", metric: "Payment history", value: "2 late payments",
+        signals: { churn: "medium", expansion: "noise", seats: "medium", features: "noise" },
+        insights: { churn: "Budget pressure or deprioritization", expansion: "Not an expansion signal", seats: "Budget pressure may drive seat cuts", features: "Not feature-related" } },
+      { cat: "Financial", metric: "Contract value trend", value: "Flat 2 years",
+        signals: { churn: "low", expansion: "medium", seats: "noise", features: "noise" },
+        insights: { churn: "No expansion — stagnant relationship", expansion: "Zero growth trend — expansion unlikely", seats: "Not seat-related", features: "Not feature-related" } },
+      { cat: "Financial", metric: "Last renewal discount", value: "15%",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Historical context, not a current driver", expansion: "Not relevant", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Sentiment", metric: "NPS score", value: "Dropped 8 → 3",
+        signals: { churn: "high", expansion: "noise", seats: "medium", features: "medium" },
+        insights: { churn: "Massive sentiment shift — something broke", expansion: "Not expanding at NPS 3", seats: "Dissatisfied users may push for fewer seats", features: "Low NPS correlates with feature abandonment" } },
+      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Considering options\"",
+        signals: { churn: "high", expansion: "noise", seats: "low", features: "noise" },
+        insights: { churn: "Explicit competitive evaluation signal", expansion: "Not relevant", seats: "May evaluate seat count too", features: "Not feature-specific" } },
+      { cat: "Sentiment", metric: "Community activity", value: "None in 60 days",
+        signals: { churn: "low", expansion: "noise", seats: "noise", features: "low" },
+        insights: { churn: "Disengaged, consistent with pattern", expansion: "Not relevant", seats: "Not relevant", features: "No community engagement = less feature discovery" } },
+      { cat: "Sentiment", metric: "Training attendance", value: "Skipped 2 sessions",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "high" },
+        insights: { churn: "Correlated but not independently predictive", expansion: "Not relevant", seats: "Not relevant", features: "Skipping training directly limits feature adoption" } },
+      { cat: "Sentiment", metric: "Email open rate", value: "8%",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Low but common across accounts", expansion: "Not relevant", seats: "Not relevant", features: "Missing product updates and feature announcements" } },
     ],
-    brief: {
-      risk: "HIGH CHURN RISK", prob: "82%",
-      factors: ["Usage collapsed — logins down 47%, API calls down 38%", "5 critical support tickets unresolved, CSAT at 2.1/5", "Executive sponsor departed, primary contact gone dark", "NPS crashed from 8 to 3 — actively considering alternatives"],
-      actions: ["Escalate all 5 critical tickets to engineering leadership today", "Emergency executive outreach — identify new sponsor within 1 week", "Propose custom recovery plan with dedicated CSM", "Schedule product roadmap preview to rebuild confidence"],
-      actionImpacts: [
-        { text: "Projected: 82% → 68% churn risk", math: "Baseline churn: 82%\nTicket resolution lift: -8.2% (historical avg for critical escalations)\nSpeed-to-resolve factor: ×1.7 (engineering vs normal queue)\n82% × (1 - 0.082 × 1.7) = 82% × 0.861 = 70.6%\nRounded with decay factor: 68%" },
-        { text: "Projected: 82% → 54% churn risk", math: "Baseline churn: 82%\nExecutive sponsor effect: -22% (strongest single intervention)\nHistorical save rate with new sponsor: 64%\nWeighted: 82% × (1 - 0.22) × sponsor_confidence(0.78)\n= 82% × 0.78 × 0.84 = 53.7% ≈ 54%" },
-        { text: "Projected: 82% → 41% churn risk", math: "Baseline churn: 82%\nDedicated CSM effect: -18% (retention lift)\nRecovery plan effect: -15% (structured re-engagement)\nCombined (non-additive): 1-(1-0.18)(1-0.15) = 30.3%\n82% × (1 - 0.303) × engagement_factor(0.72)\n= 82% × 0.697 × 0.72 = 41.2% ≈ 41%" },
-        { text: "Projected: 82% → 60% churn risk", math: "Baseline churn: 82%\nRoadmap preview effect: -12% (confidence rebuilder)\nFuture value perception: ×1.4 multiplier\nBut: no direct pain resolution\nDecay: 82% × (1 - 0.12 × 1.4) × 0.88\n= 82% × 0.832 × 0.88 = 60.0%" }
-      ],
-      confidence: 91,
-      timeline: "Immediate — begin intervention this week"
+    briefs: {
+      churn: {
+        title: "CHURN RISK ASSESSMENT", risk: "HIGH CHURN RISK", prob: "82%", color: sf.error,
+        factors: ["Usage collapsed — logins down 47%, API calls down 38%", "5 critical support tickets unresolved, CSAT at 2.1/5", "Executive sponsor departed, primary contact gone dark", "NPS crashed from 8 to 3 — actively considering alternatives"],
+        actions: ["Escalate all 5 critical tickets to engineering leadership today", "Emergency executive outreach — identify new sponsor within 1 week", "Propose custom recovery plan with dedicated CSM", "Schedule product roadmap preview to rebuild confidence"],
+        actionImpacts: [
+          { text: "Projected: 82% → 68% churn risk", math: "Baseline churn: 82%\nTicket resolution lift: -8.2% (historical avg for critical escalations)\nSpeed-to-resolve factor: ×1.7 (engineering vs normal queue)\n82% × (1 - 0.082 × 1.7) = 82% × 0.861 = 70.6%\nRounded with decay factor: 68%" },
+          { text: "Projected: 82% → 54% churn risk", math: "Baseline churn: 82%\nExecutive sponsor effect: -22% (strongest single intervention)\nHistorical save rate with new sponsor: 64%\nWeighted: 82% × (1 - 0.22) × sponsor_confidence(0.78)\n= 82% × 0.78 × 0.84 = 53.7% ≈ 54%" },
+          { text: "Projected: 82% → 41% churn risk", math: "Baseline churn: 82%\nDedicated CSM effect: -18% (retention lift)\nRecovery plan effect: -15% (structured re-engagement)\nCombined (non-additive): 1-(1-0.18)(1-0.15) = 30.3%\n82% × (1 - 0.303) × engagement_factor(0.72)\n= 82% × 0.697 × 0.72 = 41.2% ≈ 41%" },
+          { text: "Projected: 82% → 60% churn risk", math: "Baseline churn: 82%\nRoadmap preview effect: -12% (confidence rebuilder)\nFuture value perception: ×1.4 multiplier\nBut: no direct pain resolution\nDecay: 82% × (1 - 0.12 × 1.4) × 0.88\n= 82% × 0.832 × 0.88 = 60.0%" }
+        ],
+        confidence: 91, probCalc: { scores: [["Usage decline","0.90","0.28","0.252",sf.errorLight],["Support failures","0.90","0.22","0.198",sf.errorLight],["Stakeholder loss","0.90","0.25","0.225",sf.errorLight],["Financial signals","0.60","0.10","0.060",sf.warningLight],["Sentiment decline","0.90","0.15","0.135",sf.errorLight]], raw: "0.870", calibrated: "0.82" },
+        confCalc: { strength: [94,"7 HIGH signals"], completeness: [95,"20/20 points"], pattern: [88,"matches 4 past churns"], corroboration: [86,"4/5 categories align"], math: "(94×0.30)+(95×0.20)+(88×0.25)+(86×0.25)\n= 28.2 + 19.0 + 22.0 + 21.5\n= 90.7 → 91%", extra: null },
+        timeline: "Immediate — begin intervention this week"
+      },
+      expansion: {
+        title: "EXPANSION FORECAST", risk: "EXPANSION UNLIKELY", prob: "8%", color: sf.error,
+        factors: ["Usage in freefall — no foundation for expansion", "No executive sponsor to champion additional investment", "Actively considering alternatives — not thinking about expanding", "Support failures would need resolution before any growth conversation"],
+        actions: ["Stabilize the account before any expansion discussion", "Resolve critical tickets as prerequisite", "Re-establish executive sponsorship", "Revisit expansion only after 90-day recovery period"],
+        actionImpacts: [
+          { text: "Projected: 8% → 8% expansion probability", math: "Baseline expansion: 8%\nStabilization is prerequisite, not expansion driver\nNo direct expansion lift — prevents further decline\nExpansion conversation deferred: 90+ days" },
+          { text: "Projected: support resolution enables future path", math: "Current state: blocked\nTicket resolution: unlocks expansion conversation\nBut: still 90+ days away from any growth discussion\nPre-condition, not direct expansion driver" },
+          { text: "Projected: new sponsor → 22% expansion potential", math: "If sponsor secured AND account stabilized:\nHistorical new-sponsor expansion rate: 34%\nAdjusted for current crisis: ×0.65\n34% × 0.65 = 22.1%\nTimeline: 6+ months out" },
+          { text: "Projected: post-recovery expansion window at 6 months", math: "If all interventions successful:\nRecovery timeline: 90 days minimum\nStabilization confirmation: +30 days\nExpansion conversation: month 5-6\nHistorical recovery-to-expansion rate: 28%" }
+        ],
+        confidence: 87, probCalc: { scores: [["Usage decline","0.95","0.30","0.285",sf.errorLight],["Support blockers","0.90","0.20","0.180",sf.errorLight],["No sponsor","0.85","0.25","0.213",sf.errorLight],["Financial flat","0.60","0.15","0.090",sf.warningLight],["Sentiment negative","0.80","0.10","0.080",sf.errorLight]], raw: "0.848", calibrated: "0.08 (inverted)" },
+        confCalc: { strength: [90,"clear negative signals"], completeness: [95,"20/20 points"], pattern: [84,"matches non-expansion profiles"], corroboration: [80,"4/5 categories negative"], math: "(90×0.30)+(95×0.20)+(84×0.25)+(80×0.25)\n= 27.0 + 19.0 + 21.0 + 20.0\n= 87.0 → 87%", extra: null },
+        timeline: "Not applicable — stabilize first, revisit in 6 months"
+      },
+      seats: {
+        title: "SEAT REDUCTION RISK", risk: "MODERATE SEAT REDUCTION RISK", prob: "38%", color: sf.warning,
+        factors: ["Team stable at 34 but engagement per user dropping sharply", "12% feature adoption — most users not getting value", "Executive sponsor departure removes protection against cuts", "NPS 3 and 'considering options' — cost scrutiny likely"],
+        actions: ["Identify and protect power users vs. inactive users", "Run per-user adoption analysis to flag at-risk seats", "Build value narrative per department/role", "Proactive seat optimization proposal before they cut reactively"],
+        actionImpacts: [
+          { text: "Projected: 38% → 22% seat reduction risk", math: "Baseline reduction risk: 38%\nPower user identification: protects core seats\nHistorical save rate: 42% of at-risk seats\n38% × (1 - 0.42) = 22.0%" },
+          { text: "Projected: identifies 12 at-risk seats", math: "Total seats: 34\nActive users (>5 logins/month): ~22\nInactive/low-usage: ~12 (35%)\nThese are the vulnerable seats\nEarly identification = proactive defense" },
+          { text: "Projected: preserves $148K in seat revenue", math: "ARR per seat: $420K / 34 = $12.35K\n12 at-risk seats × $12.35K = $148.2K\nValue narrative effectiveness: 60-70%\nProtected revenue: ~$100-104K minimum" },
+          { text: "Projected: controlled optimization saves 8 of 12 seats", math: "At-risk seats: 12\nProactive optimization vs. reactive cut:\nReactive: lose all 12 (client decides)\nProactive: retain 8, consolidate 4 (we decide)\nNet save: 8 seats × $12.35K = $98.8K preserved" }
+        ],
+        confidence: 72, probCalc: { scores: [["Login decline per user","0.75","0.25","0.188",sf.warningLight],["Feature adoption 12%","0.85","0.30","0.255",sf.errorLight],["Team stable (34)","0.20","0.20","0.040",sf.successLight],["Sponsor departed","0.60","0.15","0.090",sf.warningLight],["NPS sentiment","0.65","0.10","0.065",sf.warningLight]], raw: "0.638", calibrated: "0.38" },
+        confCalc: { strength: [68,"mixed signals"], completeness: [95,"20/20 points"], pattern: [70,"partial match to reduction patterns"], corroboration: [52,"2/5 categories align"], math: "(68×0.30)+(95×0.20)+(70×0.25)+(52×0.25)\n= 20.4 + 19.0 + 17.5 + 13.0\n= 69.9 → 72%\n+2.1 adjustment (recent sponsor loss)", extra: "+2.1 adjustment (recent sponsor loss)" },
+        timeline: "Monitor closely — seat review likely at renewal in 4 months"
+      },
+      features: {
+        title: "FEATURE ADOPTION TRAJECTORY", risk: "CRITICAL ADOPTION GAP", prob: "12% current → 18% projected", color: sf.error,
+        factors: ["Only 12% feature adoption — 88% of platform unused", "Skipped 2 training sessions — no new feature discovery", "API usage down 38% — integration features being abandoned", "8% email open rate — missing feature announcements entirely"],
+        actions: ["Deploy targeted in-app feature walkthroughs for top 5 unused features", "Schedule mandatory training session with team leads", "Create custom feature ROI report showing untapped value", "Assign dedicated adoption specialist for 60-day sprint"],
+        actionImpacts: [
+          { text: "Projected: 12% → 28% adoption in 60 days", math: "Current adoption: 12%\nIn-app walkthrough lift: +9% (historical avg)\nTargeted vs. generic: ×1.4 effectiveness\nAdjusted lift: 9% × 1.4 = 12.6%\nWith engagement decay: 12% + 12.6% × 0.85\n= 12% + 10.7% = 22.7%\nTraining session bonus: +5.3% = 28%" },
+          { text: "Projected: 3 power features activated", math: "Top 5 unused features ranked by value:\n1. Advanced reporting (high ROI)\n2. Workflow automation (time savings)\n3. API integrations (stickiness)\nHistorical activation rate with targeted training: 62%\n5 × 0.62 = 3.1 ≈ 3 features" },
+          { text: "Projected: $63K unrealized value unlocked", math: "Platform features at full adoption: $420K value\nCurrent value realized: 12% × $420K = $50.4K\nAt 28% adoption: 28% × $420K = $117.6K\nIncremental value: $117.6K - $50.4K = $67.2K\nRealization rate: 94% = $63.2K" },
+          { text: "Projected: feature stickiness reduces churn 12%", math: "Feature adoption correlation with retention:\nEach 10% adoption increase → 6% churn reduction\nProjected increase: 16% (12% → 28%)\nChurn reduction: 1.6 × 6% = 9.6%\nStickiness multiplier: ×1.25\nTotal churn impact: 9.6% × 1.25 = 12%" }
+        ],
+        confidence: 78, probCalc: { scores: [["Current adoption rate","0.90","0.35","0.315",sf.errorLight],["Training engagement","0.80","0.20","0.160",sf.errorLight],["API/integration usage","0.70","0.20","0.140",sf.warningLight],["Email engagement","0.50","0.10","0.050",sf.warningLight],["Login frequency","0.75","0.15","0.113",sf.warningLight]], raw: "0.778", calibrated: "0.18 projected" },
+        confCalc: { strength: [82,"strong adoption signals"], completeness: [95,"20/20 points"], pattern: [74,"matches low-adoption profiles"], corroboration: [60,"3/5 categories informative"], math: "(82×0.30)+(95×0.20)+(74×0.25)+(60×0.25)\n= 24.6 + 19.0 + 18.5 + 15.0\n= 77.1 → 78%\n+0.9 training signal boost", extra: "+0.9 training signal boost" },
+        timeline: "60-day adoption sprint recommended — start before renewal conversation"
+      }
     }
   },
   {
@@ -112,38 +197,122 @@ const makeCustomers = () => [
     renewalIn: "6 months", renewalDate: "Aug 22, 2025", riskLevel: "LOW", riskScore: 15,
     color: sf.success, csm: "Marcus Johnson", contacts: 31, lastActivity: "Yesterday",
     data: [
-      { cat: "Usage", metric: "Platform logins (30d)", value: "Up 12%", signal: "noise", insight: "Healthy growth" },
-      { cat: "Usage", metric: "API call volume (30d)", value: "Up 23%", signal: "noise", insight: "Integration deepening" },
-      { cat: "Usage", metric: "Feature adoption rate", value: "68%", signal: "noise", insight: "Strong adoption" },
-      { cat: "Usage", metric: "Report generation (30d)", value: "Up 8%", signal: "noise", insight: "Steady engagement" },
-      { cat: "Support", metric: "Open critical tickets", value: "0", signal: "noise", insight: "Clean queue" },
-      { cat: "Support", metric: "Avg resolution time", value: "2 days", signal: "noise", insight: "Fast resolution" },
-      { cat: "Support", metric: "Total tickets (90d)", value: "6 tickets", signal: "noise", insight: "Low volume, all resolved" },
-      { cat: "Support", metric: "CSAT on last 5 tickets", value: "4.8 / 5", signal: "noise", insight: "Highly satisfied" },
-      { cat: "Stakeholder", metric: "Executive sponsor", value: "Active — monthly", signal: "noise", insight: "Strong champion" },
-      { cat: "Stakeholder", metric: "Primary contact", value: "Weekly Slack", signal: "noise", insight: "Deeply engaged" },
-      { cat: "Stakeholder", metric: "Team size on platform", value: "20 → 31", signal: "medium", insight: "Expansion signal — upsell opportunity" },
-      { cat: "Stakeholder", metric: "Last executive meeting", value: "2 weeks ago", signal: "noise", insight: "Regular and recent" },
-      { cat: "Financial", metric: "Payment history", value: "Always on time", signal: "noise", insight: "Reliable" },
-      { cat: "Financial", metric: "Contract value trend", value: "Up 20% YoY", signal: "medium", insight: "Growing account" },
-      { cat: "Financial", metric: "Last renewal discount", value: "0%", signal: "noise", insight: "Full price, full value" },
-      { cat: "Sentiment", metric: "NPS score", value: "9", signal: "noise", insight: "Promoter" },
-      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Best tool adopted\"", signal: "medium", insight: "Case study candidate" },
-      { cat: "Sentiment", metric: "Community activity", value: "3 posts/month", signal: "noise", insight: "Active member" },
-      { cat: "Sentiment", metric: "Training attendance", value: "All sessions", signal: "noise", insight: "Invested" },
-      { cat: "Sentiment", metric: "Email open rate", value: "62%", signal: "noise", insight: "Engaged" },
+      { cat: "Usage", metric: "Platform logins (30d)", value: "Up 12%",
+        signals: { churn: "noise", expansion: "medium", seats: "noise", features: "noise" },
+        insights: { churn: "Healthy growth", expansion: "Growing engagement supports expansion", seats: "No reduction signals", features: "Good baseline engagement" } },
+      { cat: "Usage", metric: "API call volume (30d)", value: "Up 23%",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "medium" },
+        insights: { churn: "Integration deepening", expansion: "Rapid API growth = deepening integration = expansion ready", seats: "No reduction signals", features: "API features actively being adopted" } },
+      { cat: "Usage", metric: "Feature adoption rate", value: "68%",
+        signals: { churn: "noise", expansion: "medium", seats: "noise", features: "high" },
+        insights: { churn: "Strong adoption", expansion: "High adoption = more value = expansion candidate", seats: "Strong adoption protects seats", features: "68% adopted — 32% remaining opportunity" } },
+      { cat: "Usage", metric: "Report generation (30d)", value: "Up 8%",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "low" },
+        insights: { churn: "Steady engagement", expansion: "Moderate signal", seats: "Not relevant", features: "Reporting features in use" } },
+      { cat: "Support", metric: "Open critical tickets", value: "0",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Clean queue", expansion: "No blockers", seats: "No issues", features: "No adoption blockers" } },
+      { cat: "Support", metric: "Avg resolution time", value: "2 days",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Fast resolution", expansion: "Not relevant", seats: "Not relevant", features: "Fast fixes support adoption" } },
+      { cat: "Support", metric: "Total tickets (90d)", value: "6 tickets",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Low volume, all resolved", expansion: "Not relevant", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Support", metric: "CSAT on last 5 tickets", value: "4.8 / 5",
+        signals: { churn: "noise", expansion: "low", seats: "noise", features: "noise" },
+        insights: { churn: "Highly satisfied", expansion: "Satisfaction enables expansion", seats: "Not relevant", features: "Good experience" } },
+      { cat: "Stakeholder", metric: "Executive sponsor", value: "Active — monthly",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "medium" },
+        insights: { churn: "Strong champion", expansion: "Active sponsor = can champion budget for expansion", seats: "Protected", features: "Sponsor can drive adoption initiatives" } },
+      { cat: "Stakeholder", metric: "Primary contact", value: "Weekly Slack",
+        signals: { churn: "noise", expansion: "medium", seats: "noise", features: "noise" },
+        insights: { churn: "Deeply engaged", expansion: "Engaged contact = receptive to expansion pitch", seats: "Not relevant", features: "Not feature-specific" } },
+      { cat: "Stakeholder", metric: "Team size on platform", value: "20 → 31",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "medium" },
+        insights: { churn: "No churn signal", expansion: "55% organic team growth — strongest expansion signal", seats: "Growing, not reducing", features: "New users may need onboarding for features" } },
+      { cat: "Stakeholder", metric: "Last executive meeting", value: "2 weeks ago",
+        signals: { churn: "noise", expansion: "low", seats: "noise", features: "noise" },
+        insights: { churn: "Regular and recent", expansion: "Recent touchpoint — opportunity to discuss growth", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Financial", metric: "Payment history", value: "Always on time",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Reliable", expansion: "Not a growth signal", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Financial", metric: "Contract value trend", value: "Up 20% YoY",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "noise" },
+        insights: { churn: "No churn signal", expansion: "20% YoY growth — already expanding", seats: "Not relevant", features: "Not feature-specific" } },
+      { cat: "Financial", metric: "Last renewal discount", value: "0%",
+        signals: { churn: "noise", expansion: "medium", seats: "noise", features: "noise" },
+        insights: { churn: "Full price, full value", expansion: "Paying full price = high perceived value = expansion-ready", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Sentiment", metric: "NPS score", value: "9",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "noise" },
+        insights: { churn: "Promoter", expansion: "NPS 9 = promoter status = will advocate for expansion internally", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Best tool adopted\"",
+        signals: { churn: "noise", expansion: "high", seats: "noise", features: "medium" },
+        insights: { churn: "No concern", expansion: "Active endorsement — ready to invest more", seats: "Not relevant", features: "Positive sentiment drives further feature exploration" } },
+      { cat: "Sentiment", metric: "Community activity", value: "3 posts/month",
+        signals: { churn: "noise", expansion: "low", seats: "noise", features: "medium" },
+        insights: { churn: "Active member", expansion: "Community engagement signals investment", seats: "Not relevant", features: "Active in community = discovering new features" } },
+      { cat: "Sentiment", metric: "Training attendance", value: "All sessions",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "high" },
+        insights: { churn: "Invested", expansion: "Not directly expansion", seats: "Not relevant", features: "100% training attendance = maximum feature discovery" } },
+      { cat: "Sentiment", metric: "Email open rate", value: "62%",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Engaged", expansion: "Not directly relevant", seats: "Not relevant", features: "High open rate = seeing feature announcements" } },
     ],
-    brief: {
-      risk: "LOW RISK — EXPANSION OPPORTUNITY", prob: "15%",
-      factors: ["Team growing 20 → 31 — organic expansion signal", "Contract up 20% YoY — increasing investment", "NPS 9 with glowing feedback — strong promoter"],
-      actions: ["Initiate expansion conversation — outgrowing current tier", "Invite to customer advisory board / case study", "Propose multi-year renewal with volume pricing"],
-      actionImpacts: [
-        { text: "Projected: +$80K ARR expansion", math: "Current ARR: $280K\nTeam growth: 20 → 31 (+55%)\nPer-seat pricing model: $280K × (31/20)\n= $280K × 1.55 = $434K potential\nConservative uptake (60%): +$92.4K\nDiscount for multi-seat: ×0.87 = +$80.4K ≈ +$80K" },
-        { text: "Projected: +2 reference customers", math: "NPS 9 = Promoter status\nHistorical advisory board → referral rate: 73%\nCase study participation lift: 2.1× referrals\nExpected referrals: 0.73 × 2.1 × 1.3(NPS bonus)\n= 1.99 ≈ 2 reference customers" },
-        { text: "Projected: 3-year lock-in, +15% LTV", math: "Current contract: 1-year, $280K\n3-year commitment: $280K × 3 = $840K base\nMulti-year discount offered: -8%\nExpansion baked in: +12% YoY (conservative)\nLTV: $840K × 0.92 × (1 + 0.12 avg)\n= $840K × 0.92 × 1.12 = $865K\nvs 1-year renewal LTV: $756K\nLift: ($865K - $756K)/$756K = +14.4% ≈ +15%" }
-      ],
-      confidence: 94,
-      timeline: "Proactive — begin expansion discussion within 2 weeks"
+    briefs: {
+      churn: {
+        title: "CHURN RISK ASSESSMENT", risk: "LOW RISK — EXPANSION OPPORTUNITY", prob: "15%", color: sf.success,
+        factors: ["Team growing 20 → 31 — organic expansion signal", "Contract up 20% YoY — increasing investment", "NPS 9 with glowing feedback — strong promoter"],
+        actions: ["Initiate expansion conversation — outgrowing current tier", "Invite to customer advisory board / case study", "Propose multi-year renewal with volume pricing"],
+        actionImpacts: [
+          { text: "Projected: +$80K ARR expansion", math: "Current ARR: $280K\nTeam growth: 20 → 31 (+55%)\nPer-seat pricing model: $280K × (31/20)\n= $280K × 1.55 = $434K potential\nConservative uptake (60%): +$92.4K\nDiscount for multi-seat: ×0.87 = +$80.4K ≈ +$80K" },
+          { text: "Projected: +2 reference customers", math: "NPS 9 = Promoter status\nHistorical advisory board → referral rate: 73%\nCase study participation lift: 2.1× referrals\nExpected referrals: 0.73 × 2.1 × 1.3(NPS bonus)\n= 1.99 ≈ 2 reference customers" },
+          { text: "Projected: 3-year lock-in, +15% LTV", math: "Current contract: 1-year, $280K\n3-year commitment: $280K × 3 = $840K base\nMulti-year discount offered: -8%\nExpansion baked in: +12% YoY (conservative)\nLTV: $840K × 0.92 × (1 + 0.12 avg)\n= $840K × 0.92 × 1.12 = $865K\nvs 1-year renewal LTV: $756K\nLift: ($865K - $756K)/$756K = +14.4% ≈ +15%" }
+        ],
+        confidence: 94, probCalc: { scores: [["Usage growth","0.10","0.28","0.028",sf.successLight],["Support health","0.05","0.22","0.011",sf.successLight],["Stakeholder strong","0.10","0.25","0.025",sf.successLight],["Financial growth","0.20","0.10","0.020",sf.successLight],["Sentiment positive","0.10","0.15","0.015",sf.successLight]], raw: "0.099", calibrated: "0.15" },
+        confCalc: { strength: [96,"all signals positive"], completeness: [95,"20/20 points"], pattern: [92,"matches 6 past renewals"], corroboration: [93,"5/5 categories align"], math: "(96×0.30)+(95×0.20)+(92×0.25)+(93×0.25)\n= 28.8 + 19.0 + 23.0 + 23.25\n= 94.05 → 94%", extra: null },
+        timeline: "Proactive — begin expansion discussion within 2 weeks"
+      },
+      expansion: {
+        title: "EXPANSION FORECAST", risk: "STRONG EXPANSION SIGNAL", prob: "89%", color: sf.success,
+        factors: ["Team grew 55% organically (20 → 31) — exceeding current tier", "Contract value up 20% YoY — already investing more", "NPS 9 + 'best tool adopted' — internal champion creating pull", "API calls up 23% — deepening integration = more dependency", "Executive sponsor active monthly — can approve budget"],
+        actions: ["Present enterprise tier proposal with volume pricing", "Propose additional department onboarding (sales, ops)", "Offer early access to upcoming features as expansion incentive", "Structure multi-year deal with built-in growth tiers"],
+        actionImpacts: [
+          { text: "Projected: +$154K ARR (enterprise tier)", math: "Current ARR: $280K\nEnterprise tier pricing: $434K (31 seats at volume)\nMid-market → enterprise uplift: +12% for premium features\n$434K × 1.12 = $486K\nConservative capture rate: 85%\nProjected new ARR: $434K × 0.85 = $369K\nNet expansion: $369K - $280K = $89K base\nPlus new department seats: +$65K\nTotal: +$154K" },
+          { text: "Projected: 2 new departments onboarded", math: "Current: Engineering team (31 users)\nCandidate departments: Sales (est. 15 seats), Ops (est. 12 seats)\nSponsor influence score: 0.85\nHistorical cross-department adoption: 68%\nExpected: 2 × 0.68 = 1.36 → 2 departments\n(Sales most likely first)" },
+          { text: "Projected: 91% retention with early access", math: "Current retention probability: 85%\nEarly access loyalty effect: +6%\nSunk cost of integration: already high\nWith enterprise tier: switching cost ×2.3\nProjected retention: 85% + 6% = 91%" },
+          { text: "Projected: $1.2M 3-year TCV", math: "Year 1: $434K (enterprise tier)\nYear 2: $434K × 1.15 (growth clause) = $499K\nYear 3: $499K × 1.10 = $549K\nTotal 3-year TCV: $1,482K\nWith multi-year discount (-18%): $1,215K ≈ $1.2M\nvs current trajectory: $840K (3 × $280K)" }
+        ],
+        confidence: 92, probCalc: { scores: [["Team growth 55%","0.95","0.25","0.238",sf.successLight],["API growth 23%","0.85","0.20","0.170",sf.successLight],["Active sponsor","0.90","0.20","0.180",sf.successLight],["Contract up 20%","0.88","0.20","0.176",sf.successLight],["NPS 9 promoter","0.92","0.15","0.138",sf.successLight]], raw: "0.902", calibrated: "0.89" },
+        confCalc: { strength: [94,"5 strong expansion signals"], completeness: [95,"20/20 points"], pattern: [90,"matches 8 past expansions"], corroboration: [89,"5/5 categories positive"], math: "(94×0.30)+(95×0.20)+(90×0.25)+(89×0.25)\n= 28.2 + 19.0 + 22.5 + 22.25\n= 91.95 → 92%", extra: null },
+        timeline: "Immediate — expansion conversation this month, close by Q3"
+      },
+      seats: {
+        title: "SEAT REDUCTION RISK", risk: "VERY LOW — SEAT GROWTH EXPECTED", prob: "3%", color: sf.success,
+        factors: ["Team grew 55% in current period (20 → 31)", "Feature adoption at 68% — users getting clear value", "NPS 9 across the team — no dissatisfied user segments"],
+        actions: ["No defensive action needed — focus on expansion instead", "Proactively offer volume pricing for next growth phase", "Monitor per-department usage to ensure even adoption"],
+        actionImpacts: [
+          { text: "Projected: +15-20 additional seats in 6 months", math: "Current growth rate: 55% in last period\nHistorical growth continuation: 60% of rate\nProjected: 31 × (1 + 0.55 × 0.60) = 31 × 1.33\n= 41.2 seats → +10 minimum\nWith department expansion: +15-20 total" },
+          { text: "Projected: volume pricing saves client 12%", math: "Current per-seat cost: $280K / 31 = $9.03K\nVolume tier (40+ seats): $7.95K per seat\nSavings: ($9.03K - $7.95K) / $9.03K = 12%\nClient motivation to consolidate on platform" },
+          { text: "Projected: zero seat reduction risk through renewal", math: "Growth trajectory: accelerating\nUser satisfaction: NPS 9\nAdoption: 68% (above churn threshold)\nHistorical seat reduction in this profile: <3%\nConclusion: focus entirely on growth" }
+        ],
+        confidence: 96, probCalc: { scores: [["Team growth 55%","0.05","0.30","0.015",sf.successLight],["Adoption 68%","0.05","0.25","0.013",sf.successLight],["NPS 9","0.03","0.20","0.006",sf.successLight],["Active sponsor","0.05","0.15","0.008",sf.successLight],["Financial growth","0.05","0.10","0.005",sf.successLight]], raw: "0.047", calibrated: "0.03" },
+        confCalc: { strength: [97,"all signals positive"], completeness: [95,"20/20 points"], pattern: [96,"matches growth profiles"], corroboration: [95,"5/5 categories growing"], math: "(97×0.30)+(95×0.20)+(96×0.25)+(95×0.25)\n= 29.1 + 19.0 + 24.0 + 23.75\n= 95.85 → 96%", extra: null },
+        timeline: "No action needed — seat count will grow organically"
+      },
+      features: {
+        title: "FEATURE ADOPTION TRAJECTORY", risk: "STRONG ADOPTION — ADVANCED FEATURES NEXT", prob: "68% current → 82% projected", color: sf.success,
+        factors: ["68% adoption already — above average", "100% training attendance — team is learning", "API calls up 23% — integration features growing fast", "Community active (3 posts/month) — discovering features organically", "62% email open rate — seeing feature announcements"],
+        actions: ["Introduce advanced feature track for power users", "Enable beta access to upcoming Q3 features", "Create internal champions program for feature evangelism", "Schedule advanced API integration workshop"],
+        actionImpacts: [
+          { text: "Projected: 68% → 82% adoption in 90 days", math: "Current adoption: 68%\nAdvanced track lift: +8% (power user features)\nBeta access engagement: +4%\nChampion network effect: +2%\nTotal: 68% + 14% = 82%\nDiminishing returns above 68%: ×0.85\nAdjusted: 68% + (14% × 0.85) = 79.9% ≈ 82%\n(champion effect adds +2.1%)" },
+          { text: "Projected: 5 power users become feature champions", math: "Team size: 31\nCurrent power users (>80% feature use): ~8\nChampion program conversion: 62%\n8 × 0.62 = 4.96 ≈ 5 champions\nEach champion influences ~3 teammates" },
+          { text: "Projected: API integration depth → 4 new connections", math: "Current API integrations: est. 6\nAPI growth rate: 23%/month\nWorkshop activation of dormant endpoints: +2\nNew integration discovery: +2\nProjected: 6 + 4 = 10 integrations\nStickiness score: very high (switching cost ×3)" },
+          { text: "Projected: +$42K upsell via advanced features", math: "Advanced feature tier premium: +15% of ARR\n$280K × 0.15 = $42K\nPower user willingness to pay: 78%\nExpected capture: $42K × 0.78 = $32.8K minimum\nWith champion advocacy: $42K (full capture likely)" }
+        ],
+        confidence: 91, probCalc: { scores: [["Current adoption 68%","0.70","0.30","0.210",sf.successLight],["Training 100%","0.90","0.20","0.180",sf.successLight],["API growth 23%","0.80","0.20","0.160",sf.successLight],["Community active","0.65","0.15","0.098",sf.successLight],["Email open 62%","0.60","0.15","0.090",sf.successLight]], raw: "0.738", calibrated: "0.82 projected" },
+        confCalc: { strength: [92,"strong adoption baseline"], completeness: [95,"20/20 points"], pattern: [89,"matches high-adopter trajectory"], corroboration: [88,"4/5 categories strong"], math: "(92×0.30)+(95×0.20)+(89×0.25)+(88×0.25)\n= 27.6 + 19.0 + 22.25 + 22.0\n= 90.85 → 91%", extra: null },
+        timeline: "90-day advanced adoption track — start with power user cohort"
+      }
     }
   },
   {
@@ -151,39 +320,124 @@ const makeCustomers = () => [
     renewalIn: "3 months", renewalDate: "May 01, 2025", riskLevel: "MEDIUM", riskScore: 51,
     color: sf.warning, csm: "Emily Rodriguez", contacts: 38, lastActivity: "6 days ago",
     data: [
-      { cat: "Usage", metric: "Platform logins (30d)", value: "Flat", signal: "noise", insight: "Stable" },
-      { cat: "Usage", metric: "API call volume (30d)", value: "Down 15%", signal: "medium", insight: "Integration pullback — monitor" },
-      { cat: "Usage", metric: "Feature adoption rate", value: "35%", signal: "medium", insight: "Underutilizing the platform" },
-      { cat: "Usage", metric: "Report generation (30d)", value: "Flat", signal: "noise", insight: "No change" },
-      { cat: "Support", metric: "Open critical tickets", value: "1 unresolved", signal: "medium", insight: "Lingering issue needs attention" },
-      { cat: "Support", metric: "Avg resolution time", value: "7 days", signal: "low", insight: "Acceptable but not great" },
-      { cat: "Support", metric: "Total tickets (90d)", value: "12 tickets", signal: "noise", insight: "Normal volume" },
-      { cat: "Support", metric: "CSAT on last 5 tickets", value: "3.4 / 5", signal: "low", insight: "Mediocre" },
-      { cat: "Stakeholder", metric: "Executive sponsor", value: "New VP — 2 months", signal: "high", insight: "New decision-maker may re-evaluate vendors" },
-      { cat: "Stakeholder", metric: "Primary contact", value: "Brief responses", signal: "low", insight: "Going through the motions" },
-      { cat: "Stakeholder", metric: "Team size on platform", value: "45 → 38", signal: "medium", insight: "Shrinking user base" },
-      { cat: "Stakeholder", metric: "Last executive meeting", value: "6 weeks ago", signal: "low", insight: "Slightly overdue" },
-      { cat: "Financial", metric: "Payment history", value: "1 late payment", signal: "low", insight: "Isolated, monitor" },
-      { cat: "Financial", metric: "Contract value trend", value: "Flat 3 years", signal: "medium", insight: "Zero growth — stagnation risk" },
-      { cat: "Financial", metric: "Last renewal discount", value: "22%", signal: "medium", insight: "Heavily discounted — low margin" },
-      { cat: "Sentiment", metric: "NPS score", value: "6", signal: "low", insight: "Passive — could go either way" },
-      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Does the job\"", signal: "medium", insight: "Commodity perception — vulnerable" },
-      { cat: "Sentiment", metric: "Community activity", value: "None", signal: "noise", insight: "Never engaged" },
-      { cat: "Sentiment", metric: "Training attendance", value: "Sporadic", signal: "noise", insight: "Not meaningful" },
-      { cat: "Sentiment", metric: "Email open rate", value: "19%", signal: "noise", insight: "Below average" },
+      { cat: "Usage", metric: "Platform logins (30d)", value: "Flat",
+        signals: { churn: "noise", expansion: "noise", seats: "low", features: "noise" },
+        insights: { churn: "Stable", expansion: "No growth", seats: "Flat logins but fewer users", features: "Not informative" } },
+      { cat: "Usage", metric: "API call volume (30d)", value: "Down 15%",
+        signals: { churn: "medium", expansion: "noise", seats: "medium", features: "high" },
+        insights: { churn: "Integration pullback — monitor", expansion: "Not a growth signal", seats: "API reduction may mean fewer integrating users", features: "Integration features being deprioritized" } },
+      { cat: "Usage", metric: "Feature adoption rate", value: "35%",
+        signals: { churn: "medium", expansion: "noise", seats: "high", features: "high" },
+        insights: { churn: "Underutilizing the platform", expansion: "Not relevant", seats: "65% unused features = users not getting value = seat risk", features: "Only 35% adopted — 65% opportunity gap" } },
+      { cat: "Usage", metric: "Report generation (30d)", value: "Flat",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "low" },
+        insights: { churn: "No change", expansion: "Not relevant", seats: "Not relevant", features: "Stable but not growing" } },
+      { cat: "Support", metric: "Open critical tickets", value: "1 unresolved",
+        signals: { churn: "medium", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Lingering issue needs attention", expansion: "Not relevant", seats: "Not seat-related", features: "May block specific feature adoption" } },
+      { cat: "Support", metric: "Avg resolution time", value: "7 days",
+        signals: { churn: "low", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Acceptable but not great", expansion: "Not relevant", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Support", metric: "Total tickets (90d)", value: "12 tickets",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Normal volume", expansion: "Not relevant", seats: "Not relevant", features: "Not relevant" } },
+      { cat: "Support", metric: "CSAT on last 5 tickets", value: "3.4 / 5",
+        signals: { churn: "low", expansion: "noise", seats: "low", features: "low" },
+        insights: { churn: "Mediocre", expansion: "Not relevant", seats: "Low satisfaction → less investment per seat", features: "Meh satisfaction reduces feature exploration" } },
+      { cat: "Stakeholder", metric: "Executive sponsor", value: "New VP — 2 months",
+        signals: { churn: "high", expansion: "medium", seats: "high", features: "medium" },
+        insights: { churn: "New decision-maker may re-evaluate vendors", expansion: "New VPs sometimes bring new budget — or cut", seats: "New VP likely to audit seat utilization", features: "May reprioritize which features matter" } },
+      { cat: "Stakeholder", metric: "Primary contact", value: "Brief responses",
+        signals: { churn: "low", expansion: "noise", seats: "noise", features: "noise" },
+        insights: { churn: "Going through the motions", expansion: "Not relevant", seats: "Not relevant", features: "Not feature-specific" } },
+      { cat: "Stakeholder", metric: "Team size on platform", value: "45 → 38",
+        signals: { churn: "medium", expansion: "noise", seats: "high", features: "medium" },
+        insights: { churn: "Shrinking user base", expansion: "Not an expansion signal", seats: "Already lost 7 seats (16%) — primary seat reduction indicator", features: "Fewer users = fewer feature advocates" } },
+      { cat: "Stakeholder", metric: "Last executive meeting", value: "6 weeks ago",
+        signals: { churn: "low", expansion: "noise", seats: "low", features: "noise" },
+        insights: { churn: "Slightly overdue", expansion: "Not relevant", seats: "No recent discussion of utilization", features: "Not relevant" } },
+      { cat: "Financial", metric: "Payment history", value: "1 late payment",
+        signals: { churn: "low", expansion: "noise", seats: "medium", features: "noise" },
+        insights: { churn: "Isolated, monitor", expansion: "Not relevant", seats: "Budget pressure may accelerate seat cuts", features: "Not relevant" } },
+      { cat: "Financial", metric: "Contract value trend", value: "Flat 3 years",
+        signals: { churn: "medium", expansion: "medium", seats: "medium", features: "noise" },
+        insights: { churn: "Zero growth — stagnation risk", expansion: "3 years flat = no expansion appetite", seats: "Flat contract but shrinking users = cost per seat rising", features: "Not feature-specific" } },
+      { cat: "Financial", metric: "Last renewal discount", value: "22%",
+        signals: { churn: "medium", expansion: "noise", seats: "high", features: "noise" },
+        insights: { churn: "Heavily discounted — low margin", expansion: "Not relevant", seats: "22% discount + shrinking users = likely to negotiate down further", features: "Not relevant" } },
+      { cat: "Sentiment", metric: "NPS score", value: "6",
+        signals: { churn: "low", expansion: "noise", seats: "medium", features: "medium" },
+        insights: { churn: "Passive — could go either way", expansion: "Not relevant", seats: "Passive users don't defend seat count", features: "Lukewarm sentiment limits feature exploration" } },
+      { cat: "Sentiment", metric: "Last NPS comment", value: "\"Does the job\"",
+        signals: { churn: "medium", expansion: "noise", seats: "medium", features: "high" },
+        insights: { churn: "Commodity perception — vulnerable", expansion: "Not expanding with this sentiment", seats: "'Does the job' = only paying for what we use = seat reduction language", features: "Commodity perception means only basic features valued" } },
+      { cat: "Sentiment", metric: "Community activity", value: "None",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "low" },
+        insights: { churn: "Never engaged", expansion: "Not relevant", seats: "Not relevant", features: "No organic feature discovery" } },
+      { cat: "Sentiment", metric: "Training attendance", value: "Sporadic",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "high" },
+        insights: { churn: "Not meaningful", expansion: "Not relevant", seats: "Not relevant", features: "Sporadic training = inconsistent feature adoption" } },
+      { cat: "Sentiment", metric: "Email open rate", value: "19%",
+        signals: { churn: "noise", expansion: "noise", seats: "noise", features: "medium" },
+        insights: { churn: "Below average", expansion: "Not relevant", seats: "Not relevant", features: "Missing feature announcements and tips" } },
     ],
-    brief: {
-      risk: "MEDIUM CHURN RISK", prob: "51%",
-      factors: ["New VP started 2 months ago — vendor re-evaluation likely", "Team shrinking 45 → 38 — losing adoption", "$650K flat 3 years at 22% discount — stagnation", "NPS 6 with 'does the job' — commodity perception"],
-      actions: ["Priority intro meeting with new VP within 2 weeks", "Build ROI narrative vs. alternatives", "Custom enablement session for underutilized features", "Resolve critical ticket before renewal conversation"],
-      actionImpacts: [
-        { text: "Projected: 51% → 35% churn risk", math: "Baseline churn: 51%\nNew VP intro effect: -18% (relationship reset)\nFirst 90-day window: ×1.8 influence multiplier\nBut: unproven relationship\nRisk adj: 51% × (1 - 0.18 × 1.8) × 0.92\n= 51% × 0.676 × 0.92 = 31.7%\nConservative round: 35%" },
-        { text: "Projected: 51% → 38% churn risk", math: "Baseline churn: 51%\nROI narrative effect: -14% (value reframing)\nCommodity perception offset: ×1.2\nNPS 6 → passive, receptive to value story\n51% × (1 - 0.14 × 1.2) × 0.89\n= 51% × 0.832 × 0.89 = 37.7% ≈ 38%" },
-        { text: "Projected: 35% → 74% feature adoption", math: "Current adoption: 35%\nCustom enablement lift: +22% (historical avg)\nTargeted vs generic training: ×1.6 effectiveness\nAdjusted lift: 22% × 1.6 = 35.2%\nDiminishing returns factor: ×0.85\n35% + (35.2% × 0.85) × (1 - 0.35)\n= 35% + 29.9% × 0.65 = 35% + 19.4%\nNew adoption: 54.4% → optimistic: 74%\n(includes network effect from power users)" },
-        { text: "Projected: CSAT 3.4 → 4.0+", math: "Current CSAT: 3.4/5\nCritical ticket resolution: +0.4 avg lift\nResolution before renewal signal: ×1.2 goodwill\nHistorical CSAT recovery curve:\n3.4 + (0.4 × 1.2) + halo_effect(0.12)\n= 3.4 + 0.48 + 0.12 = 4.0" }
-      ],
-      confidence: 76,
-      timeline: "Urgent — renewal in 3 months, new VP is the wildcard"
+    briefs: {
+      churn: {
+        title: "CHURN RISK ASSESSMENT", risk: "MEDIUM CHURN RISK", prob: "51%", color: sf.warning,
+        factors: ["New VP started 2 months ago — vendor re-evaluation likely", "Team shrinking 45 → 38 — losing adoption", "$650K flat 3 years at 22% discount — stagnation", "NPS 6 with 'does the job' — commodity perception"],
+        actions: ["Priority intro meeting with new VP within 2 weeks", "Build ROI narrative vs. alternatives", "Custom enablement session for underutilized features", "Resolve critical ticket before renewal conversation"],
+        actionImpacts: [
+          { text: "Projected: 51% → 35% churn risk", math: "Baseline churn: 51%\nNew VP intro effect: -18% (relationship reset)\nFirst 90-day window: ×1.8 influence multiplier\nBut: unproven relationship\nRisk adj: 51% × (1 - 0.18 × 1.8) × 0.92\n= 51% × 0.676 × 0.92 = 31.7%\nConservative round: 35%" },
+          { text: "Projected: 51% → 38% churn risk", math: "Baseline churn: 51%\nROI narrative effect: -14% (value reframing)\nCommodity perception offset: ×1.2\nNPS 6 → passive, receptive to value story\n51% × (1 - 0.14 × 1.2) × 0.89\n= 51% × 0.832 × 0.89 = 37.7% ≈ 38%" },
+          { text: "Projected: 35% → 74% feature adoption", math: "Current adoption: 35%\nCustom enablement lift: +22% (historical avg)\nTargeted vs generic training: ×1.6 effectiveness\nAdjusted lift: 22% × 1.6 = 35.2%\nDiminishing returns factor: ×0.85\n35% + (35.2% × 0.85) × (1 - 0.35)\n= 35% + 29.9% × 0.65 = 35% + 19.4%\nNew adoption: 54.4% → optimistic: 74%\n(includes network effect from power users)" },
+          { text: "Projected: CSAT 3.4 → 4.0+", math: "Current CSAT: 3.4/5\nCritical ticket resolution: +0.4 avg lift\nResolution before renewal signal: ×1.2 goodwill\nHistorical CSAT recovery curve:\n3.4 + (0.4 × 1.2) + halo_effect(0.12)\n= 3.4 + 0.48 + 0.12 = 4.0" }
+        ],
+        confidence: 76, probCalc: { scores: [["Usage flat","0.40","0.28","0.112",sf.warningLight],["Support mixed","0.45","0.22","0.099",sf.warningLight],["Stakeholder risk","0.70","0.25","0.175",sf.errorLight],["Financial stale","0.70","0.10","0.070",sf.warningLight],["Sentiment passive","0.60","0.15","0.090",sf.warningLight]], raw: "0.546", calibrated: "0.51" },
+        confCalc: { strength: [68,"1 HIGH, mixed signals"], completeness: [95,"20/20 points"], pattern: [71,"partial match only"], corroboration: [65,"2/5 categories align"], math: "(68×0.30)+(95×0.20)+(71×0.25)+(65×0.25)\n= 20.4 + 19.0 + 17.75 + 16.25\n= 73.4 → 76%", extra: "+2.6 recency boost (new VP signal)" },
+        timeline: "Urgent — renewal in 3 months, new VP is the wildcard"
+      },
+      expansion: {
+        title: "EXPANSION FORECAST", risk: "EXPANSION UNLIKELY", prob: "11%", color: sf.error,
+        factors: ["Contract flat 3 years — no growth trajectory", "Team shrinking 45 → 38 — opposite of expansion", "New VP may cut before expanding — re-evaluation mode", "'Does the job' sentiment — no enthusiasm for more investment"],
+        actions: ["Do not pitch expansion in current climate", "Focus on retention and value demonstration first", "Wait for new VP relationship to stabilize", "Identify potential expansion only after Q2 renewal secured"],
+        actionImpacts: [
+          { text: "Projected: expansion possible Q4 if retention secured", math: "Current expansion probability: 11%\nIf retention secured (Q2): base improves to 25%\nIf VP relationship established: ×1.6\n25% × 1.6 = 40% expansion probability in Q4\nTimeline: 6-9 months out" },
+          { text: "Projected: new VP could unlock $130K if converted", math: "If VP becomes champion:\nNew department potential: 20 additional seats\n20 × ($650K/38 per seat) = $342K potential\nRealistic capture: 38% (new relationship)\n$342K × 0.38 = $130K\nBut: 6+ months away minimum" },
+          { text: "Projected: feature adoption must reach 55% first", math: "Expansion prerequisite: demonstrated value\nCurrent adoption: 35%\nHistorical expansion threshold: 55%+ adoption\nGap: 20% adoption increase needed\nTimeline to 55%: ~4 months with enablement\nExpansion conversation: month 5-6 earliest" },
+          { text: "Projected: retention focus yields better ROI than expansion push", math: "Expansion push now: 11% success × $130K = $14.3K EV\nRetention focus: 70% save rate × $650K = $455K EV\nROI ratio: retention is 32× more valuable\nClear priority: save the account first" }
+        ],
+        confidence: 82, probCalc: { scores: [["Contract flat 3yr","0.85","0.25","0.213",sf.errorLight],["Team shrinking","0.80","0.25","0.200",sf.errorLight],["New VP uncertainty","0.70","0.20","0.140",sf.warningLight],["Commodity sentiment","0.75","0.15","0.113",sf.warningLight],["22% discount","0.60","0.15","0.090",sf.warningLight]], raw: "0.756", calibrated: "0.11 (inverted)" },
+        confCalc: { strength: [84,"clear negative signals"], completeness: [95,"20/20 points"], pattern: [80,"matches non-expansion profile"], corroboration: [70,"3/5 negative"], math: "(84×0.30)+(95×0.20)+(80×0.25)+(70×0.25)\n= 25.2 + 19.0 + 20.0 + 17.5\n= 81.7 → 82%", extra: null },
+        timeline: "Not now — revisit expansion only after retention is secured in Q2"
+      },
+      seats: {
+        title: "SEAT REDUCTION RISK", risk: "HIGH SEAT REDUCTION RISK", prob: "72%", color: sf.error,
+        factors: ["Already lost 7 seats (45 → 38) — 16% reduction in progress", "Only 35% feature adoption — 65% of users underutilizing", "New VP will likely audit seat utilization in first 90 days", "'Does the job' at 22% discount — cost optimization target", "Flat $650K contract + shrinking users = rising cost per seat"],
+        actions: ["Run immediate per-user utilization audit", "Identify and activate the 12-15 underutilizing users", "Present value-per-seat analysis to new VP proactively", "Propose seat optimization plan before they impose one"],
+        actionImpacts: [
+          { text: "Projected: 72% → 45% seat reduction risk", math: "Baseline reduction risk: 72%\nProactive utilization audit: shows transparency\nHistorical proactive vs reactive: saves 38% more seats\n72% × (1 - 0.38) = 44.6% ≈ 45%\nKey: controlling the narrative" },
+          { text: "Projected: save 8 of 12 at-risk seats", math: "Current active users (>5 logins/month): ~26\nInactive/low-usage: ~12 seats at risk\nActivation sprint effectiveness: 65%\n12 × 0.65 = 7.8 ≈ 8 seats saved\nRevenue protected: 8 × $17.1K = $136.8K" },
+          { text: "Projected: proactive plan saves $205K vs reactive cut", math: "Reactive scenario: VP cuts 15 seats\n15 × ($650K/38) = $256.6K revenue lost\nProactive scenario: optimize 5, activate 8, keep 25\nProactive revenue loss: 5 × $17.1K = $85.5K\nSavings: $256.6K - $85.5K = $171.1K\nPlus goodwill value: ~$34K = $205K total" },
+          { text: "Projected: value-per-seat story shifts VP perception", math: "Current perception: 'paying for 38, only 26 active'\nCost per active seat: $650K/26 = $25K\nWith optimization: $650K/33 = $19.7K\nIndustry benchmark: $22K average\nStory: 'you're getting below-market value per active seat'\nPerception shift probability: 68%" }
+        ],
+        confidence: 84, probCalc: { scores: [["Team shrunk 16%","0.90","0.30","0.270",sf.errorLight],["Adoption 35%","0.85","0.25","0.213",sf.errorLight],["New VP audit","0.80","0.20","0.160",sf.errorLight],["22% discount","0.70","0.15","0.105",sf.warningLight],["Commodity perception","0.65","0.10","0.065",sf.warningLight]], raw: "0.813", calibrated: "0.72" },
+        confCalc: { strength: [88,"strong reduction signals"], completeness: [95,"20/20 points"], pattern: [82,"matches seat reduction profiles"], corroboration: [72,"4/5 categories negative"], math: "(88×0.30)+(95×0.20)+(82×0.25)+(72×0.25)\n= 26.4 + 19.0 + 20.5 + 18.0\n= 83.9 → 84%", extra: null },
+        timeline: "Critical — expect VP audit within 30 days, renewal in 3 months"
+      },
+      features: {
+        title: "FEATURE ADOPTION TRAJECTORY", risk: "LOW ADOPTION — DECLINING TRAJECTORY", prob: "35% current → 29% projected", color: sf.error,
+        factors: ["Only 35% adoption with declining API usage (-15%)", "Sporadic training attendance — inconsistent learning", "'Does the job' sentiment — only using basic features", "19% email open rate — missing feature updates entirely", "No community engagement — zero organic feature discovery"],
+        actions: ["Deploy immediate 'quick wins' feature campaign targeting 5 high-ROI features", "Assign feature adoption specialist for 8-week sprint", "Create role-specific feature guides for logistics workflows", "Implement in-app tooltips and guided tours"],
+        actionImpacts: [
+          { text: "Projected: 35% → 48% adoption in 60 days", math: "Current adoption: 35% (declining)\nQuick wins campaign: +8% (low-effort, high-value features)\nAdoption specialist lift: +5% (guided activation)\nRole-specific guides: +3% (relevance increases adoption)\nIn-app tooltips: +2% (passive discovery)\nTotal: 35% + 18% × diminishing_factor(0.72)\n= 35% + 13% = 48%" },
+          { text: "Projected: reverses decline trajectory within 30 days", math: "Current trajectory: -3% adoption per quarter\nIntervention reversal: typically week 2-3\nHistorical pattern: decline → flat → growth\nFlat by day 20, growth by day 35\nKey metric: daily feature activation rate" },
+          { text: "Projected: role-specific adoption increases stickiness 24%", math: "Generic features: switching cost = low\nRole-specific configured features: switching cost = high\nLogistics workflow features (5 targeted):\nRoute optimization, fleet dashboard, carrier scoring\nPer-feature stickiness increase: 4.8%\n5 × 4.8% = 24% total stickiness improvement" },
+          { text: "Projected: feature adoption → $97K in demonstrated value", math: "Platform total value at full adoption: $650K\nCurrent realized value: 35% × $650K = $227.5K\nAt 48% adoption: 48% × $650K = $312K\nDemonstrated value increase: $84.5K\nPlus reduced support costs: $12.5K\nTotal: $97K demonstrated value" }
+        ],
+        confidence: 75, probCalc: { scores: [["Current adoption 35%","0.70","0.30","0.210",sf.warningLight],["API declining 15%","0.65","0.20","0.130",sf.warningLight],["Sporadic training","0.80","0.20","0.160",sf.errorLight],["Low email opens","0.55","0.15","0.083",sf.warningLight],["No community","0.60","0.15","0.090",sf.warningLight]], raw: "0.673", calibrated: "0.29 projected (declining)" },
+        confCalc: { strength: [78,"clear declining signals"], completeness: [95,"20/20 points"], pattern: [72,"matches declining adoption curve"], corroboration: [55,"3/5 categories informative"], math: "(78×0.30)+(95×0.20)+(72×0.25)+(55×0.25)\n= 23.4 + 19.0 + 18.0 + 13.75\n= 74.15 → 75%", extra: null },
+        timeline: "Urgent — reverse decline before renewal conversation in 3 months"
+      }
     }
   }
 ];
@@ -200,10 +454,18 @@ const signalStyle = {
 const stepDefs = [
   { num: 1, label: "Dashboard", icon: "📋" },
   { num: 2, label: "Raw Data", icon: "📦" },
-  { num: 3, label: "Filter", icon: "🧠" },
-  { num: 4, label: "Agent Context", icon: "🤖" },
-  { num: 5, label: "Renewal Brief", icon: "🎯" },
-  { num: 6, label: "Take Action", icon: "⚡" },
+  { num: 3, label: "Question", icon: "❓" },
+  { num: 4, label: "Filter", icon: "🧠" },
+  { num: 5, label: "Agent Context", icon: "🤖" },
+  { num: 6, label: "Intelligence Brief", icon: "🎯" },
+  { num: 7, label: "Take Action", icon: "⚡" },
+];
+
+const questionDefs = [
+  { id: "churn", label: "Churn Risk at Renewal", desc: "What is this customer's likelihood of churning in the next 6 months?", icon: "🔴", color: sf.errorLight },
+  { id: "expansion", label: "Expansion Likelihood", desc: "Will this customer expand seats, usage, or contract value in the next 6 months?", icon: "📈", color: sf.successLight },
+  { id: "seats", label: "Seat Reduction Risk", desc: "Is this customer likely to reduce seats or downgrade in the next 6 months?", icon: "📉", color: sf.warningLight },
+  { id: "features", label: "Feature Adoption Trajectory", desc: "Which features will this customer adopt or abandon in the next 6 months?", icon: "🧩", color: sf.lightBlue },
 ];
 
 export default function App() {
@@ -220,25 +482,103 @@ export default function App() {
   const [chatInput, setChatInput] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
   const [autonomyMode, setAutonomyMode] = useState(false);
+  const [selectedQ, setSelectedQ] = useState(null);
+  const [customQ, setCustomQ] = useState("");
+  const [customBrief, setCustomBrief] = useState(null);
+  const [customLoading, setCustomLoading] = useState(false);
   const chatEndRef = useRef(null);
   const ivRef = useRef(null);
 
   const c = selIdx !== null ? customers[selIdx] : null;
+  const activeQ = selectedQ;
+  const activeBrief = selectedQ === "custom" ? customBrief : (c && selectedQ ? c.briefs[selectedQ] : null);
 
   useEffect(() => {
     if (chatEndRef.current) chatEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [chatMsgs]);
 
+  const getSignal = (d) => selectedQ === "custom" ? (d._customSignal || "noise") : (d.signals?.[selectedQ] || "noise");
+  const getInsight = (d) => selectedQ === "custom" ? (d._customInsight || "") : (d.insights?.[selectedQ] || "");
+
   const selectCustomer = (idx) => {
     setSelIdx(idx); setStep(2); setVisibleRows(0); setFilterProg(0);
     setBriefVisible(false); setOverrideIdx(null); setFeedbackLog([]);
     setChatOpen(false); setChatMsgs([]); setAutonomyMode(false);
+    setSelectedQ(null); setCustomQ(""); setCustomBrief(null);
     let count = 0;
     const iv = setInterval(() => { count++; setVisibleRows(count); if (count >= 20) clearInterval(iv); }, 35);
   };
 
+  const selectQuestion = (qId) => {
+    setSelectedQ(qId);
+    if (qId !== "custom") {
+      setStep(4); setFilterProg(0);
+      let p = 0;
+      ivRef.current = setInterval(() => { p += 3; setFilterProg(p); if (p >= 100) clearInterval(ivRef.current); }, 40);
+    }
+  };
+
+  const runCustomQuestion = async () => {
+    if (!customQ.trim() || !c) return;
+    setSelectedQ("custom"); setCustomLoading(true); setStep(4); setFilterProg(0);
+    const dataStr = c.data.map(d => `[${d.cat}] ${d.metric}: ${d.value}`).join("\n");
+    const sysPrompt = `You are a customer behavior intelligence agent for Salesforce. You are analyzing data for ${c.name} (${c.industry}, ARR: ${c.arr}, renewal in ${c.renewalIn}).
+
+Here is the raw customer data:
+${dataStr}
+
+The user is asking a specific question about this customer's behavior 6 months into the future. Analyze the data and respond in EXACTLY this JSON format (no markdown, no backticks):
+{"title":"BRIEF TITLE","risk":"Risk/status label","prob":"Key metric or probability","color":"red|green|orange","factors":["factor 1","factor 2","factor 3","factor 4"],"actions":["action 1","action 2","action 3","action 4"],"actionImpacts":[{"text":"Impact 1","math":"Calculation 1"},{"text":"Impact 2","math":"Calculation 2"},{"text":"Impact 3","math":"Calculation 3"},{"text":"Impact 4","math":"Calculation 4"}],"confidence":85,"timeline":"Timeline recommendation","signalScores":[{"idx":0,"signal":"high|medium|low|noise","insight":"Why this signal matters for this question"},{"idx":1,"signal":"noise","insight":"Not relevant"}]}
+
+Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantitative in your analysis.`;
+    try {
+      const resp = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514", max_tokens: 2000,
+          system: sysPrompt,
+          messages: [{ role: "user", content: customQ }]
+        })
+      });
+      const data = await resp.json();
+      const text = data.content?.map(b => b.text || "").join("") || "";
+      const clean = text.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+      const colorMap = { red: sf.error, green: sf.success, orange: sf.warning };
+      setCustomBrief({
+        ...parsed,
+        color: colorMap[parsed.color] || sf.lightBlue,
+        probCalc: null, confCalc: null,
+      });
+      // Apply signal scores to data
+      if (parsed.signalScores) {
+        setCustomers(prev => {
+          const next = JSON.parse(JSON.stringify(prev));
+          parsed.signalScores.forEach(s => {
+            if (next[selIdx].data[s.idx]) {
+              next[selIdx].data[s.idx]._customSignal = s.signal;
+              next[selIdx].data[s.idx]._customInsight = s.insight;
+            }
+          });
+          return next;
+        });
+      }
+    } catch (e) {
+      setCustomBrief({
+        title: "CUSTOM ANALYSIS", risk: "ANALYSIS ERROR", prob: "N/A", color: sf.warning,
+        factors: ["Could not generate analysis — check API connection", "Try one of the predefined questions instead"],
+        actions: ["Retry the question", "Use a predefined question"], actionImpacts: [],
+        confidence: 0, timeline: "N/A", probCalc: null, confCalc: null
+      });
+    }
+    setCustomLoading(false);
+    let p = 0;
+    ivRef.current = setInterval(() => { p += 5; setFilterProg(p); if (p >= 100) clearInterval(ivRef.current); }, 30);
+  };
+
   const runFilter = () => {
-    setStep(3); setFilterProg(0);
+    setStep(4); setFilterProg(0);
     let p = 0;
     ivRef.current = setInterval(() => { p += 3; setFilterProg(p); if (p >= 100) clearInterval(ivRef.current); }, 40);
   };
@@ -246,32 +586,36 @@ export default function App() {
   const overrideSignal = (dataIdx, newSignal) => {
     setCustomers(prev => {
       const next = JSON.parse(JSON.stringify(prev));
-      next[selIdx].data[dataIdx].signal = newSignal;
+      if (selectedQ === "custom") {
+        next[selIdx].data[dataIdx]._customSignal = newSignal;
+      } else if (selectedQ) {
+        next[selIdx].data[dataIdx].signals[selectedQ] = newSignal;
+      }
       next[selIdx].data[dataIdx].overridden = true;
       return next;
     });
     setOverrideIdx(null);
   };
 
-  const goToContext = () => setStep(4);
-  const goToBrief = () => { setStep(5); setTimeout(() => setBriefVisible(true), 100); };
-  const goToAction = () => setStep(6);
-  const resetDemo = () => { setStep(1); setSelIdx(null); setFilterProg(0); setVisibleRows(0); setBriefVisible(false); setCustomers(makeCustomers()); setChatOpen(false); setChatMsgs([]); setAutonomyMode(false); };
+  const goToContext = () => setStep(5);
+  const goToBrief = () => { setStep(6); setTimeout(() => setBriefVisible(true), 100); };
+  const goToAction = () => setStep(7);
+  const resetDemo = () => { setStep(1); setSelIdx(null); setFilterProg(0); setVisibleRows(0); setBriefVisible(false); setCustomers(makeCustomers()); setChatOpen(false); setChatMsgs([]); setAutonomyMode(false); setSelectedQ(null); setCustomQ(""); setCustomBrief(null); };
 
-  const highSigs = c ? c.data.filter(d => d.signal === "high") : [];
-  const medSigs = c ? c.data.filter(d => d.signal === "medium") : [];
+  const highSigs = c ? c.data.filter(d => getSignal(d) === "high") : [];
+  const medSigs = c ? c.data.filter(d => getSignal(d) === "medium") : [];
   const keptSigs = highSigs.length + medSigs.length;
   const noisePercent = c ? Math.round(((20 - keptSigs) / 20) * 100) : 0;
 
   const contextBlock = c ? [
     `ACCOUNT: ${c.name} | ${c.industry} | ARR: ${c.arr}`,
     `RENEWAL DATE: ${c.renewalDate} (${c.renewalIn})`,
-    `RISK SCORE: ${c.riskScore}/100`,
+    `QUESTION: ${selectedQ === "custom" ? customQ : (questionDefs.find(q => q.id === selectedQ)?.label || "Churn Risk")}`,
     ``, `HIGH-PRIORITY SIGNALS:`,
-    ...highSigs.map(s => `  ⚠ [${s.cat.toUpperCase()}] ${s.metric}: ${s.value} — ${s.insight}`),
+    ...highSigs.map(s => `  ⚠ [${s.cat.toUpperCase()}] ${s.metric}: ${s.value} — ${getInsight(s)}`),
     ``, `WATCH SIGNALS:`,
-    ...medSigs.map(s => `  ◆ [${s.cat.toUpperCase()}] ${s.metric}: ${s.value} — ${s.insight}`),
-    ``, `INSTRUCTION: Based on these filtered signals, generate a renewal risk assessment with specific, actionable recommendations.`,
+    ...medSigs.map(s => `  ◆ [${s.cat.toUpperCase()}] ${s.metric}: ${s.value} — ${getInsight(s)}`),
+    ``, `INSTRUCTION: Based on these filtered signals, generate an intelligence brief answering the question above with specific, actionable recommendations.`,
   ] : [];
 
   const contextText = contextBlock.join("\n");
@@ -283,7 +627,8 @@ export default function App() {
     setChatMsgs(prev => [...prev, { role: "user", text: userMsg }]);
     setChatLoading(true);
     try {
-      const sysPrompt = `You are a Salesforce Renewal Intelligence Agent. You have access to the following filtered customer data for ${c.name}:\n\n${contextText}\n\nThe renewal brief produced:\nRisk: ${c.brief.risk} (${c.brief.prob} churn probability)\nKey Factors: ${c.brief.factors.join("; ")}\nRecommended Actions: ${c.brief.actions.join("; ")}\nTimeline: ${c.brief.timeline}\n\nAnswer the renewal manager's questions based on this data. Be specific, actionable, and concise. If asked about data you don't have, say so honestly.`;
+      const brief = activeBrief;
+      const sysPrompt = `You are a Salesforce Customer Behavior Intelligence Agent. You have access to the following filtered customer data for ${c.name}:\n\n${contextText}\n\nThe intelligence brief produced:\nAssessment: ${brief?.risk || "N/A"} (${brief?.prob || "N/A"})\nKey Factors: ${brief?.factors?.join("; ") || "N/A"}\nRecommended Actions: ${brief?.actions?.join("; ") || "N/A"}\nTimeline: ${brief?.timeline || "N/A"}\n\nAnswer the user's questions based on this data. Be specific, actionable, and concise. If asked about data you don't have, say so honestly.`;
       const resp = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -441,7 +786,7 @@ export default function App() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ fontSize: 11, color: sf.textDim }}>⚠ Agent receiving ALL {c.data.length} data points unfiltered</span>
-                <button onClick={runFilter} style={{ padding: "8px 20px", background: `linear-gradient(135deg, ${sf.cloudBlue}, ${sf.lightBlue})`, border: "none", borderRadius: 5, color: sf.white, cursor: "pointer", fontFamily: "inherit", fontSize: 11, fontWeight: 600 }}>🧠 Run Intelligence Filter →</button>
+                <button onClick={() => setStep(3)} style={{ padding: "8px 20px", background: `linear-gradient(135deg, ${sf.cloudBlue}, ${sf.lightBlue})`, border: "none", borderRadius: 5, color: sf.white, cursor: "pointer", fontFamily: "inherit", fontSize: 11, fontWeight: 600 }}>❓ Select Your Question →</button>
               </div>
             </div>
             <div style={{ border: `1px solid ${sf.border}`, borderTop: "none", borderRadius: "0 0 8px 8px", overflow: "hidden" }}>
@@ -465,13 +810,70 @@ export default function App() {
           </div>
         )}
 
-        {/* ═══ STEP 3: Filter + Human Override ═══ */}
+        {/* ═══ STEP 3: Question Selection ═══ */}
         {step === 3 && c && (
+          <div>
+            <div style={{ padding: "14px 20px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: "8px 8px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div>
+                <span style={{ fontSize: 15, fontWeight: 600, color: sf.white }}>{c.name}</span>
+                <span style={{ fontSize: 12, color: sf.textMuted, marginLeft: 12 }}>What do you want to know about this customer's future?</span>
+              </div>
+            </div>
+            <div style={{ border: `1px solid ${sf.border}`, borderTop: "none", borderRadius: "0 0 8px 8px", padding: 24, background: sf.bgCard }}>
+              <p style={{ fontSize: 13, color: sf.textLight, lineHeight: 1.6, marginTop: 0, marginBottom: 20 }}>
+                The same 20 data points get <strong style={{ color: sf.lightBlue }}>scored differently</strong> depending on the question. Select a question below, or ask your own — the Intelligence Layer adapts its filtering to match.
+              </p>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
+                {questionDefs.map(q => (
+                  <div key={q.id} onClick={() => selectQuestion(q.id)} style={{
+                    padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: `1px solid ${sf.border}`,
+                    borderRadius: 10, cursor: "pointer", transition: "all 0.2s",
+                  }} onMouseEnter={e => { e.currentTarget.style.borderColor = q.color; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
+                     onMouseLeave={e => { e.currentTarget.style.borderColor = sf.border; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}>
+                    <div style={{ fontSize: 20, marginBottom: 8 }}>{q.icon}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: sf.white, marginBottom: 6 }}>{q.label}</div>
+                    <div style={{ fontSize: 11, color: sf.textMuted, lineHeight: 1.5 }}>{q.desc}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ padding: "16px 20px", background: "rgba(1,118,211,0.04)", border: `1px solid ${sf.border}`, borderRadius: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: sf.lightBlue, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>Or ask a custom question</div>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <input
+                    value={customQ}
+                    onChange={e => setCustomQ(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") runCustomQuestion(); }}
+                    placeholder="e.g., Will this customer consolidate to a competitor within 6 months?"
+                    style={{ flex: 1, padding: "10px 14px", background: "rgba(255,255,255,0.05)", border: `1px solid ${sf.border}`, borderRadius: 6, color: sf.white, fontFamily: "inherit", fontSize: 12, outline: "none" }}
+                  />
+                  <button onClick={runCustomQuestion} disabled={!customQ.trim() || customLoading} style={{
+                    padding: "10px 20px", background: customQ.trim() ? `linear-gradient(135deg, ${sf.cloudBlue}, ${sf.lightBlue})` : "rgba(255,255,255,0.05)",
+                    border: "none", borderRadius: 6, color: sf.white, cursor: customQ.trim() ? "pointer" : "default",
+                    fontFamily: "inherit", fontSize: 12, fontWeight: 600, opacity: customQ.trim() ? 1 : 0.5
+                  }}>
+                    {customLoading ? "Analyzing..." : "🧠 Run Analysis →"}
+                  </button>
+                </div>
+                <div style={{ fontSize: 10, color: sf.textDim, marginTop: 8 }}>The AI agent will analyze all 20 data points against your specific question and produce a custom intelligence brief.</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══ STEP 4: Filter + Human Override ═══ */}
+        {step === 4 && c && (
           <div>
             <div style={{ padding: "14px 20px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: "8px 8px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
               <div>
                 <span style={{ fontSize: 15, fontWeight: 600, color: sf.white }}>{c.name}</span>
                 <span style={{ fontSize: 12, color: sf.textMuted, marginLeft: 12 }}>Intelligence Layer Active</span>
+                {selectedQ && (
+                  <span style={{ fontSize: 10, padding: "3px 10px", borderRadius: 12, background: "rgba(1,118,211,0.15)", border: `1px solid rgba(1,118,211,0.25)`, color: sf.lightBlue, marginLeft: 8, fontWeight: 600 }}>
+                    {selectedQ === "custom" ? customQ.slice(0, 50) + (customQ.length > 50 ? "..." : "") : questionDefs.find(q => q.id === selectedQ)?.label}
+                  </span>
+                )}
               </div>
               {filterProg >= 100 && (
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -498,8 +900,9 @@ export default function App() {
                     <span>{catIcons[cat]}</span><span style={{ textTransform: "uppercase", letterSpacing: 1.5 }}>{cat}</span>
                   </div>
                   {c.data.filter(d => d.cat === cat).map((d, di) => {
-                    const sc = signalStyle[d.signal];
-                    const isOut = d.signal === "noise" || d.signal === "low";
+                    const sig = getSignal(d);
+                    const sc = signalStyle[sig];
+                    const isOut = sig === "noise" || sig === "low";
                     const show = filterProg >= 100;
                     const gi = c.data.indexOf(d);
                     return (
@@ -508,7 +911,7 @@ export default function App() {
                         borderBottom: `1px solid rgba(1,118,211,0.05)`,
                         opacity: show && isOut ? 0.18 : 1,
                         textDecoration: show && isOut ? "line-through" : "none",
-                        background: show && d.signal === "high" ? sc.bg : d.overridden ? "rgba(1,118,211,0.06)" : "transparent",
+                        background: show && sig === "high" ? sc.bg : d.overridden ? "rgba(1,118,211,0.06)" : "transparent",
                         transition: "all 0.4s ease", gap: 8, position: "relative"
                       }}>
                         <span style={{ width: 200, fontSize: 12, color: sf.textMuted }}>{d.metric}</span>
@@ -532,7 +935,7 @@ export default function App() {
                                 boxShadow: "0 8px 24px rgba(0,0,0,0.4)"
                               }}>
                                 <span style={{ fontSize: 10, color: sf.textMuted, alignSelf: "center", marginRight: 4 }}>Override to:</span>
-                                {signalLevels.filter(l => l !== d.signal).map(level => (
+                                {signalLevels.filter(l => l !== sig).map(level => (
                                   <button key={level} onClick={() => overrideSignal(gi, level)} style={{
                                     padding: "4px 10px", borderRadius: 8,
                                     background: signalStyle[level].bg,
@@ -543,7 +946,7 @@ export default function App() {
                                 ))}
                               </div>
                             )}
-                            <span style={{ fontSize: 11, color: isOut ? sf.deepBg : sf.textMuted, fontStyle: "italic", marginLeft: 4 }}>{d.insight}</span>
+                            <span style={{ fontSize: 11, color: isOut ? sf.deepBg : sf.textMuted, fontStyle: "italic", marginLeft: 4 }}>{getInsight(d)}</span>
                           </>
                         )}
                       </div>
@@ -575,15 +978,15 @@ export default function App() {
           </div>
         )}
 
-        {/* ═══ STEP 4: Agent Context ═══ */}
-        {step === 4 && c && (
+        {/* ═══ STEP 5: Agent Context ═══ */}
+        {step === 5 && c && (
           <div>
             <div style={{ padding: "14px 20px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: "8px 8px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
               <div>
                 <span style={{ fontSize: 15, fontWeight: 600, color: sf.white }}>Agent Context Window</span>
                 <span style={{ fontSize: 12, color: sf.textMuted, marginLeft: 12 }}>What the Renewal Agent actually "sees"</span>
               </div>
-              <button onClick={goToBrief} style={{ padding: "8px 20px", background: `linear-gradient(135deg, ${sf.success}, #38A169)`, border: "none", borderRadius: 5, color: sf.white, cursor: "pointer", fontFamily: "inherit", fontSize: 11, fontWeight: 600 }}>🎯 Generate Renewal Brief →</button>
+              <button onClick={goToBrief} style={{ padding: "8px 20px", background: `linear-gradient(135deg, ${sf.success}, #38A169)`, border: "none", borderRadius: 5, color: sf.white, cursor: "pointer", fontFamily: "inherit", fontSize: 11, fontWeight: 600 }}>🎯 Generate Intelligence Brief →</button>
             </div>
 
             <div style={{ display: "flex", gap: 16, marginTop: -1, flexWrap: "wrap" }}>
@@ -617,13 +1020,13 @@ export default function App() {
           </div>
         )}
 
-        {/* ═══ STEP 5: Renewal Brief + Feedback ═══ */}
-        {step === 5 && c && (
+        {/* ═══ STEP 6: Intelligence Brief + Feedback ═══ */}
+        {step === 6 && c && activeBrief && (
           <div>
             <div style={{ padding: "14px 20px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: "8px 8px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
               <div>
                 <span style={{ fontSize: 15, fontWeight: 600, color: sf.white }}>{c.name}</span>
-                <span style={{ fontSize: 12, color: sf.textMuted, marginLeft: 12 }}>Agent-Generated Renewal Brief</span>
+                <span style={{ fontSize: 12, color: sf.textMuted, marginLeft: 12 }}>Agent-Generated Intelligence Brief</span>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
                 <button onClick={() => setChatOpen(!chatOpen)} style={{
@@ -643,45 +1046,22 @@ export default function App() {
               transition: "all 0.4s ease"
             }}>
               <Tip label={
-                <div style={{ display: "inline-block", padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 700, color: c.color, background: c.color === sf.error ? "rgba(234,0,30,0.1)" : c.color === sf.success ? "rgba(46,132,74,0.1)" : "rgba(221,122,1,0.08)", border: `1px solid ${c.color}30`, cursor: "help" }}>
-                  {c.brief.risk} — {c.brief.prob} churn probability
+                <div style={{ display: "inline-block", padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 700, color: activeBrief?.color || c.color, background: (activeBrief?.color || c.color) === sf.error ? "rgba(234,0,30,0.1)" : (activeBrief?.color || c.color) === sf.success ? "rgba(46,132,74,0.1)" : "rgba(221,122,1,0.08)", border: `1px solid ${activeBrief?.color || c.color}30`, cursor: "help" }}>
+                  {activeBrief?.risk} — {activeBrief?.prob}
                 </div>
-              } color={c.color}>
-                <div style={{ width: 280 }}>
-                  <strong style={{ color: sf.white }}>Churn Probability Calculation</strong><br/><br/>
+              } color={activeBrief?.color || c.color}>
+                <div style={{ width: 300 }}>
+                  <strong style={{ color: sf.white }}>{activeBrief?.title || "Assessment"} Calculation</strong><br/><br/>
                   <div style={{ fontFamily: "'SF Mono', monospace", fontSize: 10, lineHeight: 1.8 }}>
-                    {c.id === "pinnacle" ? <>
+                    {activeBrief?.probCalc ? <>
                       <span style={{ color: sf.textMuted }}>Weighted Signal Score:</span><br/>
-                      Usage decline &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× 0.28 = <span style={{ color: sf.errorLight }}>0.252</span><br/>
-                      Support failures &nbsp;&nbsp;× 0.22 = <span style={{ color: sf.errorLight }}>0.198</span><br/>
-                      Stakeholder loss &nbsp;&nbsp;× 0.25 = <span style={{ color: sf.errorLight }}>0.225</span><br/>
-                      Financial signals &nbsp;× 0.10 = <span style={{ color: sf.warningLight }}>0.060</span><br/>
-                      Sentiment decline &nbsp;× 0.15 = <span style={{ color: sf.errorLight }}>0.135</span><br/>
+                      {activeBrief.probCalc.scores.map(([label, score, weight, result, color], i) => (
+                        <span key={i}>{label} <span style={{ color }}>{result}</span><br/></span>
+                      ))}
                       <span style={{ color: sf.border }}>─────────────────────</span><br/>
-                      Raw score &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.white }}>0.870</span><br/>
-                      Sigmoid calibration = <span style={{ color: sf.white }}>0.82</span><br/><br/>
-                      <span style={{ color: sf.textMuted }}>σ(x) = 1/(1+e^(-k(x-x₀)))</span>
-                    </> : c.id === "crestview" ? <>
-                      <span style={{ color: sf.textMuted }}>Weighted Signal Score:</span><br/>
-                      Usage growth &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× 0.28 = <span style={{ color: sf.successLight }}>0.028</span><br/>
-                      Support health &nbsp;&nbsp;&nbsp;× 0.22 = <span style={{ color: sf.successLight }}>0.011</span><br/>
-                      Stakeholder strong × 0.25 = <span style={{ color: sf.successLight }}>0.025</span><br/>
-                      Financial growth &nbsp;× 0.10 = <span style={{ color: sf.successLight }}>0.020</span><br/>
-                      Sentiment positive × 0.15 = <span style={{ color: sf.successLight }}>0.015</span><br/>
-                      <span style={{ color: sf.border }}>─────────────────────</span><br/>
-                      Raw score &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.white }}>0.099</span><br/>
-                      Sigmoid calibration = <span style={{ color: sf.white }}>0.15</span>
-                    </> : <>
-                      <span style={{ color: sf.textMuted }}>Weighted Signal Score:</span><br/>
-                      Usage flat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× 0.28 = <span style={{ color: sf.warningLight }}>0.112</span><br/>
-                      Support mixed &nbsp;&nbsp;&nbsp;&nbsp;× 0.22 = <span style={{ color: sf.warningLight }}>0.099</span><br/>
-                      Stakeholder risk &nbsp;× 0.25 = <span style={{ color: sf.errorLight }}>0.175</span><br/>
-                      Financial stale &nbsp;&nbsp;× 0.10 = <span style={{ color: sf.warningLight }}>0.070</span><br/>
-                      Sentiment passive × 0.15 = <span style={{ color: sf.warningLight }}>0.090</span><br/>
-                      <span style={{ color: sf.border }}>─────────────────────</span><br/>
-                      Raw score &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.white }}>0.546</span><br/>
-                      Sigmoid calibration = <span style={{ color: sf.white }}>0.51</span>
-                    </>}
+                      Raw score = <span style={{ color: sf.white }}>{activeBrief.probCalc.raw}</span><br/>
+                      Calibrated = <span style={{ color: sf.white }}>{activeBrief.probCalc.calibrated}</span>
+                    </> : <span style={{ color: sf.textMuted }}>AI-generated assessment based on custom question analysis</span>}
                   </div>
                 </div>
               </Tip>
@@ -694,46 +1074,21 @@ export default function App() {
                     <div>
                       <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.textMuted, fontWeight: 700, marginBottom: 4 }}>Model Confidence</div>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                        <span style={{ fontSize: 28, fontWeight: 700, color: c.brief.confidence >= 90 ? sf.successLight : c.brief.confidence >= 80 ? sf.warningLight : sf.errorLight }}>{c.brief.confidence}%</span>
+                        <span style={{ fontSize: 28, fontWeight: 700, color: activeBrief?.confidence >= 90 ? sf.successLight : activeBrief?.confidence >= 80 ? sf.warningLight : sf.errorLight }}>{activeBrief?.confidence}%</span>
                         <Tip label={<span style={{ fontSize: 10, color: sf.textMuted, cursor: "help" }}>How is this calculated?</span>} color={sf.textMuted}>
-                          <div style={{ width: 280 }}>
+                          <div style={{ width: 300 }}>
                             <strong style={{ color: sf.white }}>Confidence Score Calculation</strong><br/><br/>
                             <div style={{ fontFamily: "'SF Mono', monospace", fontSize: 10, lineHeight: 1.8 }}>
-                              {c.id === "pinnacle" ? <>
+                              {activeBrief?.confCalc ? <>
                                 <span style={{ color: sf.textMuted }}>Component Scores (0-100):</span><br/>
-                                Signal strength &nbsp;&nbsp;&nbsp;= <span style={{ color: sf.successLight }}>94</span> <span style={{ color: sf.textDim }}>(7 HIGH signals)</span><br/>
-                                Data completeness &nbsp;= <span style={{ color: sf.successLight }}>95</span> <span style={{ color: sf.textDim }}>(20/20 points)</span><br/>
-                                Pattern match &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.successLight }}>88</span> <span style={{ color: sf.textDim }}>(matches 4 past churns)</span><br/>
-                                Cross-corroboration = <span style={{ color: sf.successLight }}>86</span> <span style={{ color: sf.textDim }}>(4/5 categories align)</span><br/>
+                                Signal strength &nbsp;&nbsp;&nbsp;= <span style={{ color: activeBrief.confCalc.strength[0] >= 85 ? sf.successLight : sf.warningLight }}>{activeBrief.confCalc.strength[0]}</span> <span style={{ color: sf.textDim }}>({activeBrief.confCalc.strength[1]})</span><br/>
+                                Data completeness &nbsp;= <span style={{ color: sf.successLight }}>{activeBrief.confCalc.completeness[0]}</span> <span style={{ color: sf.textDim }}>({activeBrief.confCalc.completeness[1]})</span><br/>
+                                Pattern match &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: activeBrief.confCalc.pattern[0] >= 85 ? sf.successLight : sf.warningLight }}>{activeBrief.confCalc.pattern[0]}</span> <span style={{ color: sf.textDim }}>({activeBrief.confCalc.pattern[1]})</span><br/>
+                                Cross-corroboration = <span style={{ color: activeBrief.confCalc.corroboration[0] >= 80 ? sf.successLight : sf.warningLight }}>{activeBrief.confCalc.corroboration[0]}</span> <span style={{ color: sf.textDim }}>({activeBrief.confCalc.corroboration[1]})</span><br/>
                                 <span style={{ color: sf.border }}>─────────────────────────</span><br/>
-                                Weighted avg:<br/>
-                                (94×0.30)+(95×0.20)+(88×0.25)+(86×0.25)<br/>
-                                = 28.2 + 19.0 + 22.0 + 21.5<br/>
-                                = <span style={{ color: sf.white, fontWeight: 700 }}>90.7 → 91%</span>
-                              </> : c.id === "crestview" ? <>
-                                <span style={{ color: sf.textMuted }}>Component Scores (0-100):</span><br/>
-                                Signal strength &nbsp;&nbsp;&nbsp;= <span style={{ color: sf.successLight }}>96</span> <span style={{ color: sf.textDim }}>(all signals positive)</span><br/>
-                                Data completeness &nbsp;= <span style={{ color: sf.successLight }}>95</span> <span style={{ color: sf.textDim }}>(20/20 points)</span><br/>
-                                Pattern match &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.successLight }}>92</span> <span style={{ color: sf.textDim }}>(matches 6 past renewals)</span><br/>
-                                Cross-corroboration = <span style={{ color: sf.successLight }}>93</span> <span style={{ color: sf.textDim }}>(5/5 categories align)</span><br/>
-                                <span style={{ color: sf.border }}>─────────────────────────</span><br/>
-                                Weighted avg:<br/>
-                                (96×0.30)+(95×0.20)+(92×0.25)+(93×0.25)<br/>
-                                = 28.8 + 19.0 + 23.0 + 23.25<br/>
-                                = <span style={{ color: sf.white, fontWeight: 700 }}>94.05 → 94%</span>
-                              </> : <>
-                                <span style={{ color: sf.textMuted }}>Component Scores (0-100):</span><br/>
-                                Signal strength &nbsp;&nbsp;&nbsp;= <span style={{ color: sf.warningLight }}>68</span> <span style={{ color: sf.textDim }}>(1 HIGH, mixed signals)</span><br/>
-                                Data completeness &nbsp;= <span style={{ color: sf.successLight }}>95</span> <span style={{ color: sf.textDim }}>(20/20 points)</span><br/>
-                                Pattern match &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span style={{ color: sf.warningLight }}>71</span> <span style={{ color: sf.textDim }}>(partial match only)</span><br/>
-                                Cross-corroboration = <span style={{ color: sf.warningLight }}>65</span> <span style={{ color: sf.textDim }}>(2/5 categories align)</span><br/>
-                                <span style={{ color: sf.border }}>─────────────────────────</span><br/>
-                                Weighted avg:<br/>
-                                (68×0.30)+(95×0.20)+(71×0.25)+(65×0.25)<br/>
-                                = 20.4 + 19.0 + 17.75 + 16.25<br/>
-                                = <span style={{ color: sf.white, fontWeight: 700 }}>73.4 → 76%</span><br/>
-                                <span style={{ color: sf.warningLight, fontSize: 9 }}>+2.6 recency boost (new VP signal)</span>
-                              </>}
+                                <span style={{ whiteSpace: "pre-wrap" }}>{activeBrief.confCalc.math}</span>
+                                {activeBrief.confCalc.extra && <><br/><span style={{ color: sf.warningLight, fontSize: 9 }}>{activeBrief.confCalc.extra}</span></>}
+                              </> : <span style={{ color: sf.textMuted }}>AI-estimated confidence based on signal clarity and data coverage</span>}
                             </div>
                           </div>
                         </Tip>
@@ -743,7 +1098,7 @@ export default function App() {
                     <div>
                       <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.textMuted, fontWeight: 700, marginBottom: 4 }}>Agent Mode</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        {c.brief.confidence >= 90 ? (
+                        {activeBrief?.confidence >= 90 ? (
                           <button onClick={() => setAutonomyMode(!autonomyMode)} style={{
                             padding: "6px 14px", borderRadius: 20, fontSize: 11, fontWeight: 600,
                             background: autonomyMode ? "rgba(46,132,74,0.2)" : "rgba(1,118,211,0.1)",
@@ -775,7 +1130,7 @@ export default function App() {
                     <span>✓</span> Autonomous mode enabled — agent will execute recommended actions automatically. Manager receives a summary notification post-execution.
                   </div>
                 )}
-                {!autonomyMode && c.brief.confidence < 90 && (
+                {!autonomyMode && activeBrief?.confidence < 90 && (
                   <div style={{ marginTop: 12, padding: "8px 12px", background: "rgba(221,122,1,0.04)", border: `1px solid rgba(221,122,1,0.1)`, borderRadius: 6, fontSize: 11, color: sf.warningLight, display: "flex", alignItems: "center", gap: 8 }}>
                     <span>⚠</span> Confidence below 90% threshold — autonomous mode locked. Human review required before action execution. Continued feedback will improve model confidence over time.
                   </div>
@@ -787,7 +1142,7 @@ export default function App() {
                   Key Factors
                   <span style={{ fontSize: 9, color: sf.textDim, fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>— rate each factor's accuracy with 👍/👎</span>
                 </div>
-                {c.brief.factors.map((f, i) => (
+                {activeBrief?.factors.map((f, i) => (
                   <div key={i} style={{ padding: "10px 16px", background: sf.bgCard, border: `1px solid ${sf.border}`, borderRadius: 6, fontSize: 12, color: sf.textLight, lineHeight: 1.6, marginBottom: 4, display: "flex", alignItems: "center", gap: 10 }}>
                     <span style={{ color: sf.lightBlue, fontWeight: 700, flexShrink: 0 }}>{i + 1}.</span>
                     <span style={{ flex: 1 }}>{f}</span>
@@ -801,7 +1156,7 @@ export default function App() {
                   Recommended Actions
                   <span style={{ fontSize: 9, color: sf.textDim, fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>— is this recommendation useful?</span>
                 </div>
-                {c.brief.actions.map((a, i) => (
+                {activeBrief?.actions.map((a, i) => (
                   <div key={i} style={{ padding: "10px 16px", background: "rgba(46,132,74,0.04)", border: "1px solid rgba(46,132,74,0.1)", borderRadius: 6, fontSize: 12, color: sf.textLight, lineHeight: 1.6, marginBottom: 4, display: "flex", alignItems: "center", gap: 10 }}>
                     <span style={{ color: sf.successLight, flexShrink: 0 }}>→</span>
                     <span style={{ flex: 1 }}>{a}</span>
@@ -811,7 +1166,7 @@ export default function App() {
               </div>
 
               <div style={{ padding: "12px 16px", background: "rgba(221,122,1,0.05)", borderLeft: `3px solid ${sf.warning}`, borderRadius: "0 6px 6px 0", fontSize: 12, color: sf.warning, fontWeight: 600 }}>
-                ⏱ {c.brief.timeline}
+                ⏱ {activeBrief?.timeline}
               </div>
 
               {feedbackLog.length > 0 && (
@@ -826,8 +1181,8 @@ export default function App() {
           </div>
         )}
 
-        {/* ═══ STEP 6: Take Action ═══ */}
-        {step === 6 && c && (
+        {/* ═══ STEP 7: Take Action ═══ */}
+        {step === 7 && c && activeBrief && (
           <div>
             <div style={{ padding: "14px 20px", background: sf.darkBlue, border: `1px solid ${sf.border}`, borderRadius: "8px 8px 0 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
               <div>
@@ -853,23 +1208,23 @@ export default function App() {
                     <div><strong style={{ color: sf.white }}>Counterfactual Modeling</strong><br/><br/>Traditional prediction asks "what will happen?" Causal inference asks "what happens if we intervene?" Each action's projected impact is estimated by comparing predicted outcomes with and without the intervention, based on historical patterns from similar accounts. This allows the system to prioritize actions by their statistical probability of changing the renewal outcome — not just diagnosing risk, but architecting outcomes.</div>
                   </Tip>
                 </div>
-                {c.brief.actions.map((a, i) => (
+                {activeBrief?.actions.map((a, i) => (
                   <div key={i} style={{ padding: "12px 16px", background: sf.bgCard, border: `1px solid ${sf.border}`, borderRadius: 8, marginBottom: 6, display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 28, height: 28, borderRadius: "50%", background: i === 0 ? "rgba(46,132,74,0.2)" : i === 1 ? "rgba(46,132,74,0.12)" : "rgba(1,118,211,0.1)", border: `1px solid ${i === 0 ? sf.success : i === 1 ? "rgba(46,132,74,0.25)" : sf.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: i < 2 ? sf.successLight : sf.lightBlue, flexShrink: 0 }}>
                       {i + 1}
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 12, color: sf.white, fontWeight: 500, marginBottom: 3 }}>{a}</div>
-                      {c.brief.actionImpacts?.[i] && (
+                      {activeBrief?.actionImpacts?.[i] && (
                         <Tip label={
                           <span style={{ fontSize: 11, color: sf.successLight, fontWeight: 600, cursor: "help" }}>
-                            {c.brief.actionImpacts[i].text} 📐
+                            {activeBrief?.actionImpacts[i].text} 📐
                           </span>
                         } color={sf.successLight}>
                           <div style={{ width: 300 }}>
                             <strong style={{ color: sf.white }}>Impact Calculation</strong><br/><br/>
                             <div style={{ fontFamily: "'SF Mono', monospace", fontSize: 10, lineHeight: 1.8, whiteSpace: "pre-wrap" }}>
-                              {c.brief.actionImpacts[i].math}
+                              {activeBrief?.actionImpacts[i].math}
                             </div>
                             <br/><span style={{ fontSize: 9, color: sf.textDim }}>Based on counterfactual modeling against historical intervention outcomes</span>
                           </div>
