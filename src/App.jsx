@@ -1331,7 +1331,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
         {/* Footer */}
         <div style={{ marginTop: 40, paddingTop: 20, borderTop: `1px solid ${sf.border}`, textAlign: "center" }}>
           <div style={{ fontSize: 11, color: sf.textMuted, marginBottom: 4 }}>Data Cloud → Intelligence Layer → Human Validation → Einstein Trust Layer → Agent → Brief → Feedback → Action</div>
-          <div style={{ fontSize: 10, color: sf.textDim }}>Built by Yashwanth Dhakshana · Renewals Team · <a href="https://github.com/dhakshanayashwanth/renewal-intelligence-agent/tree/main" target="_blank" rel="noopener noreferrer" style={{ color: sf.lightBlue, textDecoration: "none" }}>GitHub Repo</a></div>
+          <div style={{ fontSize: 10, color: sf.textDim }}>Built by Yashwanth Dhakshana · Renewals Team · Powered by <span style={{ color: sf.lightBlue }}>Claude API (Anthropic)</span> · <a href="https://github.com/dhakshanayashwanth/renewal-intelligence-agent/tree/main" target="_blank" rel="noopener noreferrer" style={{ color: sf.lightBlue, textDecoration: "none" }}>GitHub Repo</a></div>
         </div>
       </div>
 
@@ -1348,6 +1348,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
               <span style={{ fontSize: 16 }}>🤖</span>
               <span style={{ fontSize: 13, fontWeight: 600, color: sf.white }}>Ask the Agent</span>
               <span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(46,132,74,0.2)", color: sf.successLight }}>LIVE</span>
+              <span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(1,118,211,0.15)", color: sf.lightBlue }}>Claude API</span>
             </div>
             <button onClick={() => setChatOpen(false)} style={{ background: "none", border: "none", color: sf.textMuted, cursor: "pointer", fontSize: 16, fontFamily: "inherit" }}>✕</button>
           </div>
