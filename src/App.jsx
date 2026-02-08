@@ -823,9 +823,12 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                     const gi = c.data.indexOf(d);
                     return (
                       <div key={di} style={{ display: "flex", alignItems: "center", padding: "7px 20px", borderBottom: `1px solid rgba(1,118,211,0.05)`, opacity: gi < visibleRows ? 1 : 0, transition: "all 0.25s ease" }}>
-                        <Tip label={<span style={{ width: 200, fontSize: 12, color: sf.textMuted, cursor: "help", borderBottom: `1px dashed rgba(107,138,181,0.3)`, display: "inline-block" }}>{d.metric}</span>} color={sf.textMuted}>
-                          <div style={{ width: 240 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
-                        </Tip>
+                        <span style={{ width: 200, fontSize: 12, color: sf.textMuted, display: "flex", alignItems: "center", gap: 5 }}>
+                          {d.metric}
+                          <Tip label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
+                            <div style={{ width: 220 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
+                          </Tip>
+                        </span>
                         <span style={{ fontSize: 12, color: sf.white, fontWeight: 500 }}>{d.value}</span>
                       </div>
                     );
@@ -921,9 +924,12 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                         background: show && sig === "high" ? sc.bg : d.overridden ? "rgba(1,118,211,0.06)" : "transparent",
                         transition: "all 0.4s ease", gap: 8, position: "relative"
                       }}>
-                        <Tip label={<span style={{ width: 200, fontSize: 12, color: sf.textMuted, cursor: "help", borderBottom: `1px dashed rgba(107,138,181,0.3)`, display: "inline-block" }}>{d.metric}</span>} color={sf.textMuted}>
-                          <div style={{ width: 240 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
-                        </Tip>
+                        <span style={{ width: 200, fontSize: 12, color: sf.textMuted, display: "flex", alignItems: "center", gap: 5 }}>
+                          {d.metric}
+                          <Tip label={<span style={{ fontSize: 9, width: 14, height: 14, borderRadius: "50%", background: "rgba(107,138,181,0.15)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: sf.textDim, cursor: "help", flexShrink: 0 }}>?</span>} color={sf.textMuted}>
+                            <div style={{ width: 220 }}><span style={{ fontSize: 11, lineHeight: 1.5 }}>{metricDefs[d.metric] || d.metric}</span></div>
+                          </Tip>
+                        </span>
                         <span style={{ width: 140, fontSize: 12, color: sf.white, fontWeight: 500 }}>{d.value}</span>
                         {show && (
                           <>
