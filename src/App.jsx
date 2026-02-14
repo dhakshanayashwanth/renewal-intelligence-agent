@@ -648,7 +648,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514", max_tokens: 2000,
+          model: "claude-sonnet-4-5-20250929", max_tokens: 2000,
           system: sysPrompt,
           messages: [{ role: "user", content: customQ }]
         })
@@ -740,7 +740,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
     setChatLoading(true);
     try {
       const brief = activeBrief;
-      const sysPrompt = `You are a Salesforce Customer Behavior Intelligence Agent. You have access to the following filtered customer data for ${c.name}:\n\n${contextText}\n\nThe intelligence brief produced:\nAssessment: ${brief?.risk || "N/A"} (${brief?.prob || "N/A"})\nKey Factors: ${brief?.factors?.join("; ") || "N/A"}\nRecommended Actions: ${brief?.actions?.join("; ") || "N/A"}\nTimeline: ${brief?.timeline || "N/A"}\n\nAnswer the user's questions based on this data. Be specific, actionable, and concise. If asked about data you don't have, say so honestly.`;
+      const sysPrompt = `You are a Salesforce Customer Behavior Intelligence Agent. You have access to the following filtered customer data for ${c.name}:\n\n${contextText}\n\nThe intelligence brief produced:\nAssessment: ${brief?.risk || "N/A"} (${brief?.prob || "N/A"})\nKey Factors: ${brief?.factors?.join("; ") || "N/A"}\nRecommended Actions: ${brief?.actions?.join("; ") || "N/A"}\nTimeline: ${brief?.timeline || "N/A"}\n\nAnswer the user's questions based on this data. CRITICAL: Keep responses under 150 words. Use short paragraphs, not headers or bullet lists. Be direct and actionable — no preamble, no section headers, no markdown formatting. Write like a sharp colleague giving advice in a Slack message, not a consultant writing a report. If asked about data you don't have, say so honestly.`;
       // Add placeholder assistant message for streaming
       setChatMsgs(prev => [...prev, { role: "assistant", text: "" }]);
       const resp = await fetch("/api/chat", {
@@ -748,7 +748,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           stream: true,
-          model: "claude-haiku-4-5-20251001",
+          model: "claude-sonnet-4-5-20250929",
           max_tokens: 1000,
           system: sysPrompt,
           messages: [
