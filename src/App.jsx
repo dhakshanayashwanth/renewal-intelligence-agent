@@ -912,18 +912,18 @@ RULES:
               </Accordion>
               <Accordion title="Technical Architecture" icon="⚙️">
                 <div style={{ fontFamily: "'SF Mono', monospace", fontSize: 11, lineHeight: 2, color: sf.textMuted }}>
-                  <span style={{ color: sf.lightBlue }}>Data Cloud</span> (unified customer data)<br/>
-                  &nbsp;&nbsp;↓ 20 raw signals per account<br/>
-                  <span style={{ color: sf.warningLight }}>Intelligence Layer</span> (scoring engine)<br/>
-                  &nbsp;&nbsp;↓ relevance scoring + classification<br/>
-                  <span style={{ color: sf.white }}>Human-in-the-Loop</span> (manager overrides + feedback)<br/>
-                  &nbsp;&nbsp;↓ validated signals<br/>
-                  <span style={{ color: sf.lightBlue }}>Einstein Trust Layer</span> (security + grounding)<br/>
-                  &nbsp;&nbsp;↓ 4-8 filtered signals<br/>
-                  <span style={{ color: sf.successLight }}>Renewal Agent</span> (focused context window + chat)<br/>
-                  &nbsp;&nbsp;↓ reasoning with clean data<br/>
-                  <span style={{ color: sf.white }}>Renewal Brief</span> (risk + factors + actions)<br/>
-                  &nbsp;&nbsp;↓ manager feedback (👍/👎) → model retraining<br/>
+                <span style={{ color: sf.lightBlue }}>Data Cloud</span><br/>
+                  &nbsp;&nbsp;↓ all customer data (usage, support, stakeholders, financials, sentiment)<br/>
+                  <span style={{ color: sf.warningLight }}>Intelligence Layer</span><br/>
+                  &nbsp;&nbsp;↓ scores each signal — keeps what's predictive, filters what's not<br/>
+                  <span style={{ color: sf.white }}>Manager Review</span><br/>
+                  &nbsp;&nbsp;↓ override any signal the model got wrong<br/>
+                  <span style={{ color: sf.lightBlue }}>Einstein Trust Layer</span><br/>
+                  &nbsp;&nbsp;↓ secure, auditable processing<br/>
+                  <span style={{ color: sf.successLight }}>Renewal Agent</span><br/>
+                  &nbsp;&nbsp;↓ reasons only over filtered, validated signals<br/>
+                  <span style={{ color: sf.white }}>Intelligence Brief</span><br/>
+                  &nbsp;&nbsp;↓ risk assessment + recommended actions + 👍/👎 feedback<br/>
                   <span style={{ color: sf.successLight }}>Salesforce Workflows</span> (tasks, meetings, escalations)
                 </div>
               </Accordion>
