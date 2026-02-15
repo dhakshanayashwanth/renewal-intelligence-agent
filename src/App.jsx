@@ -896,12 +896,12 @@ RULES:
                 <strong style={{ color: sf.successLight }}>For Model Accuracy:</strong> Every 👍/👎 and every signal override refines the scoring model — so the system gets smarter with each renewal cycle without manual retraining.
               </Accordion>
               <Accordion title="Signal Classification — How Scores Are Determined" icon="🔬">
-                Each data point is scored on three things:<br/><br/>
-                <strong style={{ color: sf.errorLight }}>Has this type of signal predicted renewal outcomes before?</strong> Metrics like executive sponsor departures and NPS drops have strong historical track records — they get more weight.<br/><br/>
+                Each data point is scored on three things, relative to the question you're asking:<br/><br/>
+                <strong style={{ color: sf.errorLight }}>Has this type of signal predicted this specific outcome before?</strong> Executive sponsor departure is a strong churn predictor — but it's less predictive of feature adoption. The same data point gets a different score depending on whether you're asking about churn, expansion, seats, or features.<br/><br/>
                 <strong style={{ color: sf.warningLight }}>How recent and how fast is the change?</strong> A 47% login drop in 30 days is more urgent than a 10% drop over 6 months.<br/><br/>
-                <strong style={{ color: sf.lightBlue }}>Does this signal confirm other signals?</strong> Usage decline combined with executive departure and NPS drop is compounding risk. An isolated signal without corroboration gets downgraded.<br/><br/>
+                <strong style={{ color: sf.lightBlue }}>Does this signal confirm other signals for this outcome?</strong> Usage decline combined with executive departure and NPS drop is compounding churn risk. But for a feature adoption question, those signals may not corroborate at all.<br/><br/>
                 The result: <span style={{ color: sf.errorLight, fontWeight: 600 }}>HIGH</span> means act now. <span style={{ color: sf.warningLight, fontWeight: 600 }}>MEDIUM</span> means monitor closely. <span style={{ color: sf.textMuted, fontWeight: 600 }}>LOW</span> means weak signal. <span style={{ color: sf.textDim, fontWeight: 600 }}>NOISE</span> means no predictive value — filtered out.<br/><br/>
-                Because this is fundamentally a ranking problem — surfacing the most predictive signals at the top — we measure ranking quality using <strong>NDCG (Normalized Discounted Cumulative Gain)</strong>, which evaluates whether the signals ranked highest are actually the ones most correlated with renewal outcomes.
+                Because this is fundamentally a ranking problem — surfacing the most predictive signals at the top — we measure ranking quality using <strong>NDCG (Normalized Discounted Cumulative Gain)</strong>, which evaluates whether the signals ranked highest are actually the ones most correlated with the outcome you're asking about.
               </Accordion>
               <Accordion title="Model Validation — How We'd Measure This in Production" icon="✅">
                 A scoring model is only useful if it's accurate. Here's how we'd validate it:<br/><br/>
