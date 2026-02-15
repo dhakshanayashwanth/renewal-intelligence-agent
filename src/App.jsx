@@ -1370,8 +1370,11 @@ RULES:
               <div style={{ marginBottom: 20 }}>
                 <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.lightBlue, marginBottom: 10, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
                   Actions Ranked by Predicted Lift
-                  <Tip label={<span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(1,118,211,0.15)", color: sf.lightBlue }}>Causal Inference</span>} color={sf.lightBlue}>
-                    <div><strong style={{ color: sf.white }}>Counterfactual Modeling</strong><br/><br/>Traditional prediction asks "what will happen?" Causal inference asks "what happens if we intervene?" Each action's projected impact is estimated by comparing predicted outcomes with and without the intervention, based on historical patterns from similar accounts. This allows the system to prioritize actions by their statistical probability of changing the renewal outcome — not just diagnosing risk, but architecting outcomes.</div>
+                  <Tip label={<span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(1,118,211,0.15)", color: sf.lightBlue }}>How are these generated?</span>} color={sf.lightBlue}>
+                    <div><strong style={{ color: sf.white }}>Action Generation</strong><br/><br/>The agent analyzes only the filtered signals — those classified as HIGH or MEDIUM — and cross-references them against historical intervention patterns from similar accounts. Actions that have historically moved the needle on accounts with matching signal profiles are surfaced first.</div>
+                  </Tip>
+                  <Tip label={<span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(1,118,211,0.15)", color: sf.lightBlue }}>How are they ranked?</span>} color={sf.lightBlue}>
+                    <div><strong style={{ color: sf.white }}>Counterfactual Modeling</strong><br/><br/>Each action's projected impact is estimated by comparing predicted outcomes with and without the intervention, based on historical patterns from similar accounts. This allows the system to prioritize actions by their probability of changing the renewal outcome — not just diagnosing risk, but architecting outcomes.</div>
                   </Tip>
                 </div>
                 {activeBrief?.actions.map((a, i) => (
