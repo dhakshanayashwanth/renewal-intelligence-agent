@@ -1057,7 +1057,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                         <span style={{ width: 140, fontSize: 12, color: sf.white, fontWeight: 500 }}>{d.value}</span>
                         {show && (
                           <>
-                            <span onClick={() => setOverrideIdx(overrideIdx === gi ? null : gi)} style={{
+                            <span onClick={(e) => { e.stopPropagation(); setOverrideIdx(prev => prev === gi ? null : gi); }} style={{
                               fontSize: 9, padding: "2px 8px", borderRadius: 10,
                               background: sc.bg, border: `1px solid ${d.overridden ? sf.lightBlue : sc.border}`,
                               color: sc.text, fontWeight: 700, minWidth: 44, textAlign: "center",
@@ -1075,7 +1075,7 @@ Include signalScores for ALL 20 data points (idx 0-19). Be specific and quantita
                               }}>
                                 <span style={{ fontSize: 10, color: sf.textMuted, alignSelf: "center", marginRight: 4 }}>Override to:</span>
                                 {signalLevels.filter(l => l !== sig).map(level => (
-                                  <button key={level} onClick={() => overrideSignal(gi, level)} style={{
+                                  <button key={level} onClick={(e) => { e.stopPropagation(); overrideSignal(gi, level); }} style={{
                                     padding: "4px 10px", borderRadius: 8,
                                     background: signalStyle[level].bg,
                                     border: `1px solid ${signalStyle[level].border}`,
