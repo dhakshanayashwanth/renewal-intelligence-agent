@@ -877,7 +877,7 @@ RULES:
                 <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>Renewal agents ingest entire customer histories, producing unfocused outputs that bury the insights that actually predict a renewal outcome.</p>
               </div>
               <div style={{ flex: 1, minWidth: 280, padding: "14px 18px", background: "rgba(46,132,74,0.04)", borderLeft: `3px solid ${sf.success}`, borderRadius: "0 8px 8px 0" }}>
-                <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.success, fontWeight: 700 }}>Solution</span>
+                <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.success, fontWeight: 700 }}>Solution: Filter Data Before it Reaches the Agent</span>
                 <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>A preprocessing intelligence layer — integrated with Einstein Trust Layer — that scores, filters, and prioritizes data before the agent reasons, ensuring it acts on signal, not noise. Includes human-in-the-loop validation and continuous feedback for improving accuracy over time.</p>
               </div>
             </div>
