@@ -890,10 +890,10 @@ RULES:
                 <strong style={{ color: sf.successLight }}>The system gets smarter over time.</strong> Every recommendation includes a 👍/👎 button. That feedback flows back into the scoring engine, so each renewal cycle improves accuracy — compounding quarter over quarter.
               </Accordion>
               <Accordion title="Value & Impact" icon="📈">
-                <strong style={{ color: sf.successLight }}>For Renewal Managers:</strong> Less time reading, more time acting. Instead of scrolling through 20+ data points per account, they get a focused brief with clear next steps — cutting prep time by an estimated 70-80%.<br/><br/>
-                <strong style={{ color: sf.successLight }}>For the Business:</strong> Higher renewal rates through earlier intervention. By surfacing the right signals at the right time, at-risk accounts are flagged weeks earlier, giving teams more runway to execute save plays. Healthy accounts are flagged for expansion, turning retention into growth.<br/><br/>
-                <strong style={{ color: sf.successLight }}>For Agent Quality:</strong> Focused context = better reasoning. LLMs perform measurably better with curated inputs. Reducing noise from the context window directly improves the quality, specificity, and actionability of agent outputs.<br/><br/>
-                <strong style={{ color: sf.successLight }}>For Model Accuracy:</strong> Human feedback creates a virtuous cycle. Every 👍/👎 and every signal override refines the scoring model — meaning the system gets smarter with every renewal cycle without manual retraining.
+                <strong style={{ color: sf.successLight }}>For Renewal Managers:</strong> Instead of scrolling through every data point per account, they get a focused brief with only the signals that matter and clear next steps — so they spend less time reading and more time acting.<br/><br/>
+                <strong style={{ color: sf.successLight }}>For the Business:</strong> At-risk accounts are flagged earlier, giving teams more runway to intervene. Healthy accounts are flagged for expansion, turning retention conversations into growth conversations.<br/><br/>
+                <strong style={{ color: sf.successLight }}>For Agent Quality:</strong> LLMs produce better outputs when they reason over focused, relevant context. Filtering noise from the input directly improves the specificity and actionability of the agent's recommendations.<br/><br/>
+                <strong style={{ color: sf.successLight }}>For Model Accuracy:</strong> Every 👍/👎 and every signal override refines the scoring model — so the system gets smarter with each renewal cycle without manual retraining.
               </Accordion>
               <Accordion title="Signal Classification — How Scores Are Determined" icon="🔬">
                 Each of the 20 data points is scored across three dimensions:<br/><br/>
