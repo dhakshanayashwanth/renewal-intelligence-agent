@@ -1001,7 +1001,7 @@ RULES:
             </div>
             <div style={{ border: `1px solid ${sf.border}`, borderTop: "none", borderRadius: "0 0 8px 8px", padding: 24, background: sf.bgCard }}>
               <p style={{ fontSize: 13, color: sf.textLight, lineHeight: 1.6, marginTop: 0, marginBottom: 20 }}>
-                The same 20 data points get <strong style={{ color: sf.lightBlue }}>scored differently</strong> depending on the question. Select a question below, or ask your own — the Intelligence Layer adapts its filtering to match.
+                The same data points get <strong style={{ color: sf.lightBlue }}>scored differently</strong> depending on the question. Select a question below, or ask your own — the Intelligence Layer adapts its filtering to match.
               </p>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
@@ -1161,7 +1161,7 @@ RULES:
                 <div style={{ padding: "10px 16px", background: "rgba(234,0,30,0.06)", fontSize: 11, fontWeight: 700, color: sf.errorLight, textTransform: "uppercase", letterSpacing: 1.5 }}>✗ Before — Unfiltered (20 signals)</div>
                 <div style={{ padding: 16, fontSize: 11, fontFamily: "'SF Mono', monospace", lineHeight: 1.6, color: sf.textDim, maxHeight: 360, overflowY: "auto" }}>
                   {c.data.map((d, i) => <div key={i} style={{ marginBottom: 2 }}>{d.cat}: {d.metric} = {d.value}</div>)}
-                  <div style={{ marginTop: 10, color: sf.errorLight, fontStyle: "italic" }}>⚠ Agent must parse all 20 signals to find what matters...</div>
+                  <div style={{ marginTop: 10, color: sf.errorLight, fontStyle: "italic" }}>⚠ Agent must parse all signals to find what matters...</div>
                 </div>
               </div>
               <div style={{ flex: 1, minWidth: 280, border: `1px solid rgba(46,132,74,0.2)`, borderRadius: "0 0 8px 0", overflow: "hidden" }}>
