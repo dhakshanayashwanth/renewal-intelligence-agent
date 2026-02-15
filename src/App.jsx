@@ -883,7 +883,7 @@ RULES:
             </div>
 
             <div style={{ marginBottom: 24 }}>
-              <Accordion title="How It Works — Architecture Overview" icon="🏗️" defaultOpen={true}>
+              <Accordion title="How It Works" icon="🏗️" defaultOpen={true}>
                 When a renewal approaches, Salesforce pulls together everything we know about the customer — usage patterns, support history, stakeholder changes, financials, sentiment. That's a lot of data, and most of it won't help predict what happens next.<br/><br/>
                 The <strong style={{ color: sf.lightBlue }}>Intelligence Layer</strong> sits in the middle and asks one question: <em>does this data point actually help predict the renewal outcome?</em> Each signal gets scored and classified — HIGH means act now, NOISE means ignore it. Only the signals that matter reach the agent, so its recommendations are sharper and more specific.<br/><br/>
                 <strong style={{ color: sf.warningLight }}>Managers stay in control.</strong> If the model misses something or gets a signal wrong, managers can override it with one click. Every override teaches the model to score better next time.<br/><br/>
