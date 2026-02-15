@@ -878,7 +878,7 @@ RULES:
               </div>
               <div style={{ flex: 1, minWidth: 280, padding: "14px 18px", background: "rgba(46,132,74,0.04)", borderLeft: `3px solid ${sf.success}`, borderRadius: "0 8px 8px 0" }}>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.success, fontWeight: 700 }}>Solution: Filter Data Before it Reaches the Agent</span>
-                <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>A preprocessing intelligence layer — integrated with Einstein Trust Layer — that scores, filters, and prioritizes data before the agent reasons, ensuring it acts on signal, not noise. Includes human-in-the-loop validation and continuous feedback for improving accuracy over time.</p>
+                <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>An data filter that sits between Data Cloud and the renewal agent, filtering raw customer data down to only the signals that predict renewal outcomes. Managers can override any signal classification, and their feedback continuously improves the model's accuracy — building toward fully autonomous agents over time.</p>
               </div>
             </div>
 
