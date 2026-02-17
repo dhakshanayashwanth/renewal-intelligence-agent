@@ -874,7 +874,7 @@ RULES:
             <div style={{ display: "flex", gap: 14, marginBottom: 24, flexWrap: "wrap" }}>
               <div style={{ flex: 1, minWidth: 280, padding: "14px 18px", background: "rgba(234,0,30,0.04)", borderLeft: `3px solid ${sf.error}`, borderRadius: "0 8px 8px 0" }}>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.errorLight, fontWeight: 700 }}>Problem: Agents Ingest Too Much Data</span>
-                <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>The agents were pulling in everything about a customer instead of just the few things that actually tell you if they're going to renew — so the important stuff got buried.</p>
+                <p style={{ margin: "6px 0 0", fontSize: 13, color: sf.textLight, lineHeight: 1.6 }}>The agents were pulling in everything about a customer instead of just the few things that actually tell you if they're going to renew — so important insights got buried.</p>
               </div>
               <div style={{ flex: 1, minWidth: 280, padding: "14px 18px", background: "rgba(46,132,74,0.04)", borderLeft: `3px solid ${sf.success}`, borderRadius: "0 8px 8px 0" }}>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: sf.success, fontWeight: 700 }}>Solution: Filter Data Before it Reaches the Agent</span>
